@@ -35,6 +35,7 @@ function Navbar() {
           padding-top: 14px !important;
           padding-bottom: 14px !important;
           font-family: 'Poppins', sans-serif;
+          z-index: 1030;
         }
 
         .mediconnect-navbar.scrolled {
@@ -177,7 +178,7 @@ function Navbar() {
 
       <NavbarBS
         expand="lg"
-        fixed="top"
+        sticky="top"
         className={`mediconnect-navbar ${scrolled ? "scrolled" : ""}`}
         expanded={expanded}
         onToggle={() => setExpanded(!expanded)}

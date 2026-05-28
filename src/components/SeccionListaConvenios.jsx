@@ -1,7 +1,8 @@
 import { Container, Row, Col } from "react-bootstrap";
 
-export default function SeccionLista({ titulo, items }) {
-    // Dividir items en 3 grupos para desktop
+export default function SeccionLista({ titulo, items, icono }) {
+
+    // Se divide los items en 3 grupos para el desktop
     const getColumns = (arr, numCols) => {
         const cols = Array.from({ length: numCols }, () => []);
         arr.forEach((item, i) => {
@@ -14,11 +15,12 @@ export default function SeccionLista({ titulo, items }) {
 
     return (
         <Container className="my-5">
-            <h2 className="text-start mb-4 pb-3">
+            <h2 className="text-start mb-4 pb-4 fw-bold">
+                {icono && <img src={icono} alt="convenios" style={{ width: "60px", marginRight: "15px" }} />}
                 {titulo}
             </h2>
 
-            <Row className="g-4">
+            <Row className="g-5 fw-bold pb-4">
                 {columns.map((col, colIndex) => (
                     <Col 
                         key={colIndex} 
@@ -29,7 +31,7 @@ export default function SeccionLista({ titulo, items }) {
                         {col.map((item, itemIndex) => (
                             <div
                                 key={itemIndex}
-                                className="border-bottom pb-3 mb-3"
+                                className="border-bottom pb-4 mb-3"
                                 style={{ textAlign: "left" }}
                             >
                                 {item}

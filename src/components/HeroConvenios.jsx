@@ -1,5 +1,5 @@
 import { Container, Row, Col, Image } from "react-bootstrap";
-import imagenConvenios from "../images/imagenconvenios.png";
+import imagenConvenios from "../images/convenios/imagenconvenios.png";
 
 export default function HeroConvenios() {
     return (

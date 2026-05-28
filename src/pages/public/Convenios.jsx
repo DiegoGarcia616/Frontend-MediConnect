@@ -1,5 +1,9 @@
 import HeroConvenios from "../../components/HeroConvenios";
-import SeccionLista from "../../components/SeccionLista";
+import SeccionLista from "../../components/SeccionListaConvenios";
+
+import iconoCompanias from "../../images/convenios/companias.png";
+import iconoAutoseguros from "../../images/convenios/autoseguros.png";
+import iconoInternacional from "../../images/convenios/internacional.png";
 
 export default function Convenios() {
 
@@ -41,16 +45,19 @@ export default function Convenios() {
       <SeccionLista
         titulo="Compañías de Seguros"
         items={seguros}
+        icono={iconoCompanias}
       />
 
       <SeccionLista
         titulo="Autoseguros y Convenios Especiales"
         items={autoseguros}
+        icono={iconoAutoseguros}
       />
 
       <SeccionLista
         titulo="Internacionales"
         items={internacionales}
+        icono={iconoInternacional}
       />
     </>
   );

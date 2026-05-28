@@ -79,11 +79,14 @@ function Hero({
             z-index:2;
           }
   
-          .hero-title{
-            font-size: 3.8rem;
-            font-weight: 800;
-            letter-spacing: 2px;
-            animation: fadeUp 1.2s ease forwards;
+         .hero-title {
+         /* Se usó clamp para que en celular mida 2.5rem y en PC máximo 3.8rem */
+         font-size: clamp(2.5rem, 5vw, 3.8rem); 
+         font-weight: 800;
+         letter-spacing: 2px;
+         animation: fadeUp 1.2s ease forwards;
+          word-wrap: break-word; /* Evita que las palabras largas rompan la pantalla */
+          padding: 0 15px; /* Da un poco de respiro en los bordes */
           }
   
           .hero-content p{

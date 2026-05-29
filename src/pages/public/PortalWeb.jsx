@@ -1,3 +1,5 @@
+import LoginForm from "../../components/auth/LoginForm"
+
 export default function PortalWeb() {
-    return <div>Portal Web</div>
-  }
+  return <LoginForm />
+}

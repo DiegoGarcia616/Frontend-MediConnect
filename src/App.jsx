@@ -5,6 +5,7 @@ import { ToastContainer } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 
 import PublicLayout from "./layouts/PublicLayout"
+import AuthLayout from "./layouts/AuthLayout"
 
 // Navbar
 import Inicio from "./pages/public/Inicio"
@@ -41,7 +42,6 @@ function App() {
           <Route path="/sedes" element={<Sedes />} />
           <Route path="/convenios" element={<Convenios />} />
           <Route path="/contacto" element={<Contacto />} />
-          <Route path="/portal-web" element={<PortalWeb />} />
           <Route path="/nosotros" element={<Nosotros />} />
           <Route path="/especialidades" element={<Especialidades />} />
           <Route path="/staff-medico" element={<StaffMedico />} />
@@ -51,7 +51,11 @@ function App() {
           <Route path="/politica-de-privacidad" element={<Privacidad />} />
           <Route path="/terminos-y-condiciones" element={<Terminos />} />
         </Route>
-      </Routes>
+
+        <Route element={<AuthLayout />}>
+          <Route path="/portal-web" element={<PortalWeb />} />
+          </Route>
+        </Routes>
 
       <ToastContainer position="top-right" autoClose={3000} theme="colored" />
     </Router>

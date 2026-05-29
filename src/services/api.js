@@ -32,4 +32,18 @@ export const registerPaciente = async (dni, correo, telefono, password) => {
   return response.data;
 };
 
+export const getPacientePerfil = async () => {
+  const response = await api.get("/api/paciente/perfil");
+  return response.data;
+};
+
+export const updatePacienteContacto = async (correo, telefono, ubigeo) => {
+  const response = await api.put("/api/paciente/contacto", {
+    correo,
+    telefono,
+    ubigeo,
+  });
+  return response.data;
+};
+
 export default api;

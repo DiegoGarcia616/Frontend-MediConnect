@@ -1,35 +1,36 @@
-// NO USAR ESTO AUN , SERA PARA LOS PANELES ADMIN
-
-import { useState } from "react"
-import { Outlet } from "react-router-dom"
+import { Outlet } from "react-router-dom";
+import { useState, useEffect } from "react";
 
 export default function AppLayout({ Sidebar }) {
-  const [isOpen, setIsOpen] = useState(true)
+  const [isOpen, setIsOpen] = useState(true);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   return (
-    <div
-      style={{
-        minHeight: "100vh",
-        display: "flex",
-        backgroundColor: "#f1f5f9",
-        color: "#2c2c2c",
-      }}
-    >
+    <div style={{ display: "flex", minHeight: "100vh" }}>
       <Sidebar isOpen={isOpen} setIsOpen={setIsOpen} />
 
       <div
         style={{
-          flexGrow: 1,
-          marginLeft: isOpen ? "240px" : "72px",
+          flex: 1,
+          marginLeft: isMobile ? 0 : isOpen ? "240px" : "72px",
+          marginBottom: isMobile ? "72px" : 0,
           transition: "margin-left 0.35s cubic-bezier(0.22,1,0.36,1)",
-          padding: "2rem",
+          backgroundColor: "#f8fafc",
           minHeight: "100vh",
-          overflowY: "auto",
-          backgroundColor: "#f1f5f9",
         }}
       >
         <Outlet />
       </div>
     </div>
-  )
+  );
 }

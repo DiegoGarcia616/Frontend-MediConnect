@@ -50,7 +50,7 @@ export const useRegister = () => {
       toast.success(`¡Cuenta creada exitosamente! Bienvenido, ${data.nombre}!`);
 
       const rutasPorRol = {
-        PACIENTE: "/paciente",
+        PACIENTE: "/paciente/perfil",
         MEDICO: "/medico",
         ADMIN_LOCAL: "/admin-local",
         ADMIN_TOTAL: "/admin",

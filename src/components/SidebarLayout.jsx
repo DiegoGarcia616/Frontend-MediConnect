@@ -2,7 +2,7 @@
 
 import { NavLink } from "react-router-dom"
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi"
-import logo2 from "../images/logo.png"
+import logo2 from "../images/MediconnectLogo.png"
 
 export default function SidebarLayout({
   isOpen,

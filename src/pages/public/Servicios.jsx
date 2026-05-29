@@ -1,20 +1,26 @@
 import React from 'react';
 
+import {
+  FaCalendarCheck,
+  FaFileMedical,
+  FaLaptopMedical,
+  FaShieldAlt,
+  FaChartLine,
+  FaCloud,
+  FaStethoscope
+} from 'react-icons/fa';
+
 export default function Servicios() {
   return (
     <div
       className="container py-5"
       style={{ backgroundColor: '#f8fafc' }}
     >
-
-      {/* HERO */}
       <div
-        className="row align-items-center mb-5 text-white rounded-4 p-5 shadow-sm"
+        className="row align-items-center mb-5 text-white rounded-5 p-4 p-lg-5 shadow-sm mx-2 mx-md-0"
         style={{ backgroundColor: '#0a2e5c' }}
       >
-
         <div className="col-lg-8">
-
           <span className="badge bg-white bg-opacity-25 text-white mb-3 px-3 py-2 text-uppercase fw-bold">
             Servicios Médicos
           </span>
@@ -29,29 +35,19 @@ export default function Servicios() {
             telemedicina, historias clínicas digitales y gestión inteligente
             de citas.
           </p>
-
         </div>
 
         <div className="col-lg-4 text-center d-none d-lg-block">
-
           <div className="p-4 bg-white bg-opacity-10 rounded-circle d-inline-block shadow-sm">
-
-            <span
-              className="text-white fw-bold"
-              style={{ fontSize: '70px' }}
-            >
-              🩺
-            </span>
-
+            <FaStethoscope
+              size={70}
+              color="white"
+            />
           </div>
-
         </div>
-
       </div>
 
-      {/* INTRO */}
       <div className="text-center mb-5">
-
         <h2
           className="fw-bold mb-3"
           style={{ color: '#0a2e5c' }}
@@ -68,25 +64,22 @@ export default function Servicios() {
           procesos manuales por herramientas digitales seguras, rápidas y
           escalables.
         </p>
-
       </div>
 
-      {/* SERVICIOS */}
       <div className="row g-4">
-
-        {/* CARD 1 */}
         <div className="col-md-6 col-lg-4">
-
-          <div className="card border-0 shadow-sm rounded-4 h-100">
-
+          <div
+            className="card border-0 shadow-sm rounded-4 h-100"
+            style={{
+              transition: '0.3s ease'
+            }}
+          >
             <div className="card-body p-4">
-
-              <div
+              <FaCalendarCheck
+                size={45}
+                color="#0a2e5c"
                 className="mb-3"
-                style={{ fontSize: '45px' }}
-              >
-                📅
-              </div>
+              />
 
               <h5 className="fw-bold mb-3">
                 Gestión Inteligente de Citas
@@ -97,26 +90,23 @@ export default function Servicios() {
                 registros, pérdidas de turnos y desorganización operativa,
                 permitiendo una atención más rápida y eficiente.
               </p>
-
             </div>
-
           </div>
-
         </div>
 
-        {/* CARD 2 */}
         <div className="col-md-6 col-lg-4">
-
-          <div className="card border-0 shadow-sm rounded-4 h-100">
-
+          <div
+            className="card border-0 shadow-sm rounded-4 h-100"
+            style={{
+              transition: '0.3s ease'
+            }}
+          >
             <div className="card-body p-4">
-
-              <div
+              <FaFileMedical
+                size={45}
+                color="#0a2e5c"
                 className="mb-3"
-                style={{ fontSize: '45px' }}
-              >
-                🧾
-              </div>
+              />
 
               <h5 className="fw-bold mb-3">
                 Historia Clínica Digital
@@ -127,26 +117,23 @@ export default function Servicios() {
                 que los especialistas puedan acceder rápidamente a
                 antecedentes, diagnósticos y alergias desde cualquier sede.
               </p>
-
             </div>
-
           </div>
-
         </div>
 
-        {/* CARD 3 */}
         <div className="col-md-6 col-lg-4">
-
-          <div className="card border-0 shadow-sm rounded-4 h-100">
-
+          <div
+            className="card border-0 shadow-sm rounded-4 h-100"
+            style={{
+              transition: '0.3s ease'
+            }}
+          >
             <div className="card-body p-4">
-
-              <div
+              <FaLaptopMedical
+                size={45}
+                color="#0a2e5c"
                 className="mb-3"
-                style={{ fontSize: '45px' }}
-              >
-                💻
-              </div>
+              />
 
               <h5 className="fw-bold mb-3">
                 Telemedicina Integrada
@@ -157,26 +144,23 @@ export default function Servicios() {
                 acceso a la atención médica y ampliar la capacidad
                 operativa de la clínica.
               </p>
-
             </div>
-
           </div>
-
         </div>
 
-        {/* CARD 4 */}
         <div className="col-md-6 col-lg-4">
-
-          <div className="card border-0 shadow-sm rounded-4 h-100">
-
+          <div
+            className="card border-0 shadow-sm rounded-4 h-100"
+            style={{
+              transition: '0.3s ease'
+            }}
+          >
             <div className="card-body p-4">
-
-              <div
+              <FaShieldAlt
+                size={45}
+                color="#0a2e5c"
                 className="mb-3"
-                style={{ fontSize: '45px' }}
-              >
-                🔒
-              </div>
+              />
 
               <h5 className="fw-bold mb-3">
                 Seguridad y Privacidad
@@ -187,26 +171,23 @@ export default function Servicios() {
                 de datos clínicos para garantizar la confidencialidad de
                 la información médica.
               </p>
-
             </div>
-
           </div>
-
         </div>
 
-        {/* CARD 5 */}
         <div className="col-md-6 col-lg-4">
-
-          <div className="card border-0 shadow-sm rounded-4 h-100">
-
+          <div
+            className="card border-0 shadow-sm rounded-4 h-100"
+            style={{
+              transition: '0.3s ease'
+            }}
+          >
             <div className="card-body p-4">
-
-              <div
+              <FaChartLine
+                size={45}
+                color="#0a2e5c"
                 className="mb-3"
-                style={{ fontSize: '45px' }}
-              >
-                📊
-              </div>
+              />
 
               <h5 className="fw-bold mb-3">
                 Reportes y Control Administrativo
@@ -217,26 +198,23 @@ export default function Servicios() {
                 cancelaciones y productividad médica para optimizar la
                 toma de decisiones gerenciales.
               </p>
-
             </div>
-
           </div>
-
         </div>
 
-        {/* CARD 6 */}
         <div className="col-md-6 col-lg-4">
-
-          <div className="card border-0 shadow-sm rounded-4 h-100">
-
+          <div
+            className="card border-0 shadow-sm rounded-4 h-100"
+            style={{
+              transition: '0.3s ease'
+            }}
+          >
             <div className="card-body p-4">
-
-              <div
+              <FaCloud
+                size={45}
+                color="#0a2e5c"
                 className="mb-3"
-                style={{ fontSize: '45px' }}
-              >
-                ☁️
-              </div>
+              />
 
               <h5 className="fw-bold mb-3">
                 Infraestructura Escalable en la Nube
@@ -247,15 +225,10 @@ export default function Servicios() {
                 hacia nuevas sedes manteniendo acceso remoto,
                 sincronización de datos y alta disponibilidad.
               </p>
-
             </div>
-
           </div>
-
         </div>
-
       </div>
-
     </div>
   );
 }

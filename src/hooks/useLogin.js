@@ -30,7 +30,7 @@ export const useLogin = () => {
         PACIENTE: "/paciente/perfil",
         MEDICO: "/medico",
         ADMIN_LOCAL: "/admin-local",
-        ADMIN_TOTAL: "/admin",
+        ADMIN_TOTAL: "/admin/usuarios",
       };
 
       navigate(rutasPorRol[data.rol] || "/");

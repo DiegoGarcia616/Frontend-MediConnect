@@ -1,7 +1,6 @@
-// NO USAR
-
 import { NavLink } from "react-router-dom"
-import { FiChevronLeft, FiChevronRight } from "react-icons/fi"
+import { FiChevronLeft, FiChevronRight, FiLogOut } from "react-icons/fi"
+import { useAuth } from "../hooks/useAuth"
 import logo2 from "../images/MediconnectLogo.png"
 
 export default function SidebarLayout({
@@ -13,6 +12,8 @@ export default function SidebarLayout({
   accentDark,
   menuItems,
 }) {
+  const { logout, getNombre } = useAuth()
+
   return (
     <div
       style={{
@@ -181,6 +182,89 @@ export default function SidebarLayout({
           )
         )}
       </nav>
+
+      <div
+        style={{
+          borderTop: `2px solid ${accentLight}`,
+          backgroundColor: "#fff",
+        }}
+      >
+        <div
+          style={{
+            overflow: "hidden",
+            maxHeight: isOpen ? "60px" : "0px",
+            opacity: isOpen ? 1 : 0,
+            transition: "max-height 0.3s ease, opacity 0.3s ease",
+            padding: isOpen ? "0.9rem 1.1rem" : "0 1.1rem",
+          }}
+        >
+          <p
+            style={{
+              fontSize: "0.75rem",
+              color: "#64748b",
+              margin: "0 0 0.2rem",
+              fontWeight: 500,
+            }}
+          >
+            Usuario
+          </p>
+          <p
+            style={{
+              fontSize: "0.88rem",
+              color: accentColor,
+              margin: 0,
+              fontWeight: 700,
+              whiteSpace: "nowrap",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+            }}
+          >
+            {getNombre()}
+          </p>
+        </div>
+
+        <button
+          onClick={logout}
+          title={!isOpen ? "Cerrar sesión" : ""}
+          style={{
+            width: "100%",
+            padding: "0.85rem",
+            backgroundColor: "transparent",
+            border: "none",
+            color: "#dc2626",
+            cursor: "pointer",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            transition: "all 0.2s ease",
+            fontWeight: 600,
+            fontSize: "0.9rem",
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.backgroundColor = "#fee2e2"
+            e.currentTarget.style.color = "#991b1b"
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.backgroundColor = "transparent"
+            e.currentTarget.style.color = "#dc2626"
+          }}
+        >
+          <FiLogOut size={18} />
+          <span
+            style={{
+              marginLeft: "0.85rem",
+              whiteSpace: "nowrap",
+              overflow: "hidden",
+              maxWidth: isOpen ? "160px" : "0px",
+              opacity: isOpen ? 1 : 0,
+              transition:
+                "max-width 0.35s cubic-bezier(0.22,1,0.36,1), opacity 0.25s ease",
+            }}
+          >
+            Cerrar sesión
+          </span>
+        </button>
+      </div>
 
       <button
         onClick={() => setIsOpen(!isOpen)}

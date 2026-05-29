@@ -7,6 +7,8 @@ import "react-toastify/dist/ReactToastify.css"
 import PublicLayout from "./layouts/PublicLayout"
 import AuthLayout from "./layouts/AuthLayout"
 import AppLayout from "./layouts/AppLayout"
+import ProtectedRoute from "./components/ProtectedRoute"
+import PublicRoute from "./components/PublicRoute"
 
 // Navbar
 import Inicio from "./pages/public/Inicio"
@@ -67,6 +69,36 @@ function App() {
     <Router>
       <ScrollToTop />
 
+      <style>
+        {`
+          @media (max-width: 576px) {
+            .Toastify__toast-container {
+              width: auto !important;
+              max-width: 85vw !important;
+              right: 1rem !important;
+              left: auto !important;
+              top: 1rem !important;
+              padding: 0 !important;
+            }
+
+            .Toastify__toast {
+              margin-bottom: 0.5rem !important;
+              border-radius: 12px !important;
+              font-size: 0.88rem !important;
+              padding: 12px 16px !important;
+              min-height: auto !important;
+              word-wrap: break-word !important;
+              white-space: normal !important;
+            }
+
+            .Toastify__toast-body {
+              padding: 0 !important;
+              line-height: 1.4 !important;
+            }
+          }
+        `}
+      </style>
+
       <Routes>
         {/* Público */}
         <Route element={<PublicLayout />}>
@@ -90,46 +122,67 @@ function App() {
         </Route>
 
         {/* Login / acceso */}
-        <Route element={<AuthLayout />}>
-          <Route path="/portal-web" element={<PortalWeb />} />
+        <Route element={<PublicRoute />}>
+          <Route element={<AuthLayout />}>
+            <Route path="/portal-web" element={<PortalWeb />} />
+          </Route>
         </Route>
 
         {/* Portal Paciente */}
-        <Route element={<AppLayout Sidebar={PacienteSidebar} />}>
-          <Route path="/paciente" element={<DashboardPaciente />} />
-          <Route path="/paciente/citas" element={<MisCitas />} />
-          <Route path="/paciente/resultados" element={<MisResultados />} />
-          <Route path="/paciente/perfil" element={<MiPerfil />} />
+        <Route element={<ProtectedRoute allowedRoles={["PACIENTE"]} />}>
+          <Route element={<AppLayout Sidebar={PacienteSidebar} />}>
+            <Route path="/paciente" element={<DashboardPaciente />} />
+            <Route path="/paciente/citas" element={<MisCitas />} />
+            <Route path="/paciente/resultados" element={<MisResultados />} />
+            <Route path="/paciente/perfil" element={<MiPerfil />} />
+          </Route>
         </Route>
 
         {/* Portal Médico */}
-        <Route element={<AppLayout Sidebar={MedicoSidebar} />}>
-          <Route path="/medico" element={<DashboardMedico />} />
-          <Route path="/medico/citas" element={<AgendaMedico />} />
-          <Route path="/medico/pacientes" element={<MisPacientes />} />
-          <Route path="/medico/historias" element={<HistoriasClinicas />} />
+        <Route element={<ProtectedRoute allowedRoles={["MEDICO"]} />}>
+          <Route element={<AppLayout Sidebar={MedicoSidebar} />}>
+            <Route path="/medico" element={<DashboardMedico />} />
+            <Route path="/medico/citas" element={<AgendaMedico />} />
+            <Route path="/medico/pacientes" element={<MisPacientes />} />
+            <Route path="/medico/historias" element={<HistoriasClinicas />} />
+          </Route>
         </Route>
 
         {/* Portal Admin Local */}
-        <Route element={<AppLayout Sidebar={AdminLocalSidebar} />}>
-          <Route path="/admin-local" element={<DashboardAdminLocal />} />
-          <Route path="/admin-local/pacientes" element={<AdminLocalPacientes />} />
-          <Route path="/admin-local/medicos" element={<AdminLocalMedicos />} />
-          <Route path="/admin-local/citas" element={<AdminLocalCitas />} />
+        <Route element={<ProtectedRoute allowedRoles={["ADMIN_LOCAL"]} />}>
+          <Route element={<AppLayout Sidebar={AdminLocalSidebar} />}>
+            <Route path="/admin-local" element={<DashboardAdminLocal />} />
+            <Route path="/admin-local/pacientes" element={<AdminLocalPacientes />} />
+            <Route path="/admin-local/medicos" element={<AdminLocalMedicos />} />
+            <Route path="/admin-local/citas" element={<AdminLocalCitas />} />
+          </Route>
         </Route>
 
         {/* Portal Admin Total */}
-        <Route element={<AppLayout Sidebar={AdminTotalSidebar} />}>
-          <Route path="/admin" element={<DashboardAdminTotal />} />
-          <Route path="/admin/pacientes" element={<AdminTotalPacientes />} />
-          <Route path="/admin/medicos" element={<AdminTotalMedicos />} />
-          <Route path="/admin/citas" element={<AdminTotalCitas />} />
-          <Route path="/admin/sedes" element={<AdminTotalSedes />} />
-          <Route path="/admin/usuarios" element={<AdminTotalUsuarios />} />
+        <Route element={<ProtectedRoute allowedRoles={["ADMIN_TOTAL"]} />}>
+          <Route element={<AppLayout Sidebar={AdminTotalSidebar} />}>
+            <Route path="/admin" element={<DashboardAdminTotal />} />
+            <Route path="/admin/pacientes" element={<AdminTotalPacientes />} />
+            <Route path="/admin/medicos" element={<AdminTotalMedicos />} />
+            <Route path="/admin/citas" element={<AdminTotalCitas />} />
+            <Route path="/admin/sedes" element={<AdminTotalSedes />} />
+            <Route path="/admin/usuarios" element={<AdminTotalUsuarios />} />
+          </Route>
         </Route>
       </Routes>
 
-      <ToastContainer position="top-right" autoClose={3000} theme="colored" />
+      <ToastContainer 
+        position="top-right" 
+        autoClose={3000} 
+        theme="colored"
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </Router>
   )
 }

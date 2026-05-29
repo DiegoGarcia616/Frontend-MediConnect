@@ -1,15 +1,35 @@
+import { useState } from "react";
+import { useRegister } from "../../hooks/useRegister";
+
 export default function RegisterView({ setView }) {
+  const {
+    dni,
+    setDni,
+    correo,
+    setCorreo,
+    telefono,
+    setTelefono,
+    password,
+    setPassword,
+    loading,
+    handleRegister,
+  } = useRegister();
+
+  const [showPassword, setShowPassword] = useState(false);
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    handleRegister();
+  };
+
   return (
-    <div
-      className="position-relative register-wrapper"
-    >
+    <div className="position-relative register-wrapper">
       <style>
         {`
           .register-wrapper {
               width: 100%;
               max-width: 660px;
               margin: 0 auto;
-              /* que nunca sea más alta que la pantalla menos un margen */
               max-height: calc(100vh - 140px);
           }
 
@@ -23,8 +43,6 @@ export default function RegisterView({ setView }) {
               border: 1px solid rgba(230,230,230,0.7);
               backdrop-filter: blur(10px);
               text-align: center;
-
-              /* CLAVE: que la card misma maneje el scroll */
               max-height: 100%;
               overflow-y: auto;
           }
@@ -63,6 +81,7 @@ export default function RegisterView({ setView }) {
               border-radius: 14px;
               border: 1px solid #dbe3ec;
               padding-left: 16px;
+              padding-right: 50px;
               transition: all .25s ease;
               font-size: 0.95rem;
               width: 100%;
@@ -71,6 +90,31 @@ export default function RegisterView({ setView }) {
           .auth-input:focus {
               border-color: #00c2a8;
               box-shadow: 0 0 0 4px rgba(0,194,168,0.12);
+          }
+
+          .password-wrapper {
+              position: relative;
+          }
+
+          .password-toggle {
+              position: absolute;
+              right: 16px;
+              top: 50%;
+              transform: translateY(-50%);
+              background: transparent;
+              border: none;
+              color: #64748b;
+              cursor: pointer;
+              font-size: 1.2rem;
+              padding: 0;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              transition: color 0.2s ease;
+          }
+
+          .password-toggle:hover {
+              color: #00c2a8;
           }
 
           .btn-portal {
@@ -91,11 +135,22 @@ export default function RegisterView({ setView }) {
               box-shadow: 0 12px 24px rgba(0, 194, 168, 0.38);
           }
 
+          .btn-portal:disabled {
+              opacity: 0.6;
+              cursor: not-allowed;
+              transform: none;
+          }
+
           .auth-link {
               border: none;
               background: transparent;
               color: #1a73e8;
               font-weight: 600;
+              transition: 0.2s ease;
+          }
+
+          .auth-link:hover {
+              color: #00a896;
           }
 
           .form-grid {
@@ -124,7 +179,6 @@ export default function RegisterView({ setView }) {
               font-size: 1.6rem;
           }
 
-          /* MOBILE: card más compacta y scroll cómodo */
           @media (max-width: 576px) {
               .register-wrapper {
                   max-width: 100%;
@@ -151,7 +205,7 @@ export default function RegisterView({ setView }) {
       <div className="auth-card">
         <div className="auth-header">
           <div className="auth-badge">
-            <i className="bi bi-shield-lock-fill"></i>
+            <i className="bi bi-person-plus-fill"></i>
           </div>
           <h1 className="auth-title">Registro</h1>
         </div>
@@ -160,53 +214,85 @@ export default function RegisterView({ setView }) {
           Crea tu cuenta para acceder a tu portal médico.
         </p>
 
-        <div className="form-grid">
-          <div>
-            <label className="auth-label">Nombres completos</label>
-            <input
-              type="text"
-              className="form-control auth-input"
-              placeholder="Ingrese sus nombres"
-            />
+        <form onSubmit={onSubmit}>
+          <div className="form-grid">
+            <div>
+              <label className="auth-label">DNI</label>
+              <input
+                type="text"
+                className="form-control auth-input"
+                placeholder="Ingrese su DNI"
+                value={dni}
+                onChange={(e) => setDni(e.target.value.replace(/\D/g, "").slice(0, 8))}
+                disabled={loading}
+                maxLength={8}
+              />
+            </div>
+
+            <div>
+              <label className="auth-label">Teléfono</label>
+              <input
+                type="text"
+                className="form-control auth-input"
+                placeholder="Ingrese su teléfono"
+                value={telefono}
+                onChange={(e) => setTelefono(e.target.value.replace(/\D/g, "").slice(0, 9))}
+                disabled={loading}
+                maxLength={9}
+              />
+            </div>
+
+            <div className="full">
+              <label className="auth-label">Correo electrónico</label>
+              <input
+                type="email"
+                className="form-control auth-input"
+                placeholder="Ingrese su correo"
+                value={correo}
+                onChange={(e) => setCorreo(e.target.value)}
+                disabled={loading}
+              />
+            </div>
+
+            <div className="full">
+              <label className="auth-label">Contraseña</label>
+              <div className="password-wrapper">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  className="form-control auth-input"
+                  placeholder="Cree una contraseña"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  disabled={loading}
+                />
+                <button
+                  type="button"
+                  className="password-toggle"
+                  onClick={() => setShowPassword(!showPassword)}
+                  disabled={loading}
+                >
+                  <i className={showPassword ? "bi bi-eye-slash" : "bi bi-eye"}></i>
+                </button>
+              </div>
+            </div>
           </div>
 
-          <div>
-            <label className="auth-label">DNI</label>
-            <input
-              type="text"
-              className="form-control auth-input"
-              placeholder="Ingrese su DNI"
-            />
-          </div>
-
-          <div className="full">
-            <label className="auth-label">Correo electrónico</label>
-            <input
-              type="email"
-              className="form-control auth-input"
-              placeholder="Ingrese su correo"
-            />
-          </div>
-
-          <div className="full">
-            <label className="auth-label">Contraseña</label>
-            <input
-              type="password"
-              className="form-control auth-input"
-              placeholder="Cree una contraseña"
-            />
-          </div>
-        </div>
-
-        <button className="btn-portal mt-4">Registrarme</button>
-
-        <div className="text-center mt-4">
-          <span className="text-muted">¿Ya tienes cuenta?</span>
-          <button className="auth-link ms-1" onClick={() => setView("login")}>
-            Iniciar sesión
+          <button type="submit" className="btn-portal mt-4" disabled={loading}>
+            {loading ? "Registrando..." : "Registrarme"}
           </button>
-        </div>
+
+          <div className="text-center mt-4">
+            <span className="text-muted">¿Ya tienes cuenta?</span>
+            <button
+              type="button"
+              className="auth-link ms-1"
+              onClick={() => setView("login")}
+            >
+              Iniciar sesión
+            </button>
+          </div>
+        </form>
       </div>
     </div>
-  )
+  );
 }

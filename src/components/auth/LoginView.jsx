@@ -1,4 +1,23 @@
+import { useState } from "react";
+import { useLogin } from "../../hooks/useLogin";
+
 export default function LoginView({ setView }) {
+  const {
+    dni,
+    setDni,
+    password,
+    setPassword,
+    loading,
+    handleLogin,
+  } = useLogin();
+
+  const [showPassword, setShowPassword] = useState(false);
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    handleLogin();
+  };
+
   return (
     <div
       className="position-relative"
@@ -56,6 +75,7 @@ export default function LoginView({ setView }) {
               border-radius: 14px;
               border: 1px solid #dbe3ec;
               padding-left: 16px;
+              padding-right: 50px;
               transition: all .25s ease;
               font-size: 0.95rem;
               width: 100%;
@@ -64,6 +84,31 @@ export default function LoginView({ setView }) {
           .auth-input:focus {
               border-color: #00c2a8;
               box-shadow: 0 0 0 4px rgba(0,194,168,0.12);
+          }
+
+          .password-wrapper {
+              position: relative;
+          }
+
+          .password-toggle {
+              position: absolute;
+              right: 16px;
+              top: 50%;
+              transform: translateY(-50%);
+              background: transparent;
+              border: none;
+              color: #64748b;
+              cursor: pointer;
+              font-size: 1.2rem;
+              padding: 0;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              transition: color 0.2s ease;
+          }
+
+          .password-toggle:hover {
+              color: #00c2a8;
           }
 
           .btn-portal {
@@ -82,6 +127,12 @@ export default function LoginView({ setView }) {
           .btn-portal:hover {
               transform: translateY(-3px);
               box-shadow: 0 12px 24px rgba(0, 194, 168, 0.38);
+          }
+
+          .btn-portal:disabled {
+              opacity: 0.6;
+              cursor: not-allowed;
+              transform: none;
           }
 
           .auth-link {
@@ -134,58 +185,88 @@ export default function LoginView({ setView }) {
           Accede a tu portal médico de manera segura.
         </p>
 
-        <div className="mb-4">
-          <label className="auth-label">Documento</label>
+        <form onSubmit={onSubmit}>
+          <div className="mb-4">
+            <label className="auth-label">Documento</label>
 
-          <div className="d-flex gap-2">
-            <select
-              className="form-select auth-input"
-              style={{ maxWidth: "110px" }}
+            <div className="d-flex gap-2">
+              <select
+                className="form-select auth-input"
+                style={{ maxWidth: "110px" }}
+                disabled={loading}
+              >
+                <option>DNI</option>
+              </select>
+
+              <input
+                type="text"
+                className="form-control auth-input"
+                placeholder="Nro de documento"
+                value={dni}
+                onChange={(e) => setDni(e.target.value)}
+                disabled={loading}
+              />
+            </div>
+          </div>
+
+          <div className="mb-3">
+            <label className="auth-label">Contraseña</label>
+
+            <div className="password-wrapper">
+              <input
+                type={showPassword ? "text" : "password"}
+                className="form-control auth-input"
+                placeholder="Ingrese su contraseña"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                disabled={loading}
+              />
+
+              <button
+                type="button"
+                className="password-toggle"
+                onClick={() => setShowPassword(!showPassword)}
+                disabled={loading}
+              >
+                <i className={showPassword ? "bi bi-eye-slash" : "bi bi-eye"}></i>
+              </button>
+            </div>
+          </div>
+
+          <div className="d-flex justify-content-between align-items-center mb-4">
+            <div className="d-flex align-items-center gap-2">
+              <input type="checkbox" className="auth-check" id="remember" />
+              <label htmlFor="remember" className="text-muted" style={{ fontSize: ".92rem" }}>
+                Recordarme
+              </label>
+            </div>
+
+            <button
+              type="button"
+              className="auth-link"
+              onClick={() => setView("forgot")}
             >
-              <option>DNI</option>
-            </select>
-
-            <input
-              type="text"
-              className="form-control auth-input"
-              placeholder="Nro de documento"
-            />
-          </div>
-        </div>
-
-        <div className="mb-3">
-          <label className="auth-label">Contraseña</label>
-
-          <input
-            type="password"
-            className="form-control auth-input"
-            placeholder="Ingrese su contraseña"
-          />
-        </div>
-
-        <div className="d-flex justify-content-between align-items-center mb-4">
-          <div className="d-flex align-items-center gap-2">
-            <input type="checkbox" className="auth-check" id="remember" />
-            <label htmlFor="remember" className="text-muted" style={{ fontSize: ".92rem" }}>
-              Recordarme
-            </label>
+              ¿Olvidaste tu contraseña?
+            </button>
           </div>
 
-          <button className="auth-link" onClick={() => setView("forgot")}>
-            ¿Olvidaste tu contraseña?
+          <button type="submit" className="btn-portal" disabled={loading}>
+            {loading ? "Ingresando..." : "Ingresar"}
           </button>
-        </div>
 
-        <button className="btn-portal">Ingresar</button>
+          <div className="text-center mt-4">
+            <span className="text-muted">¿No tienes cuenta?</span>
 
-        <div className="text-center mt-4">
-          <span className="text-muted">¿No tienes cuenta?</span>
-
-          <button className="auth-link ms-1" onClick={() => setView("register")}>
-            Crear cuenta
-          </button>
-        </div>
+            <button
+              type="button"
+              className="auth-link ms-1"
+              onClick={() => setView("register")}
+            >
+              Crear cuenta
+            </button>
+          </div>
+        </form>
       </div>
     </div>
-  )
+  );
 }

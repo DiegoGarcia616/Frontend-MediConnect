@@ -1,4 +1,4 @@
-import PreguntaItem from "./PreguntaItem"
+import PreguntaItem from "./PreguntaItem";
 
 function PreguntasFrecuentesComponent() {
 
@@ -23,36 +23,35 @@ function PreguntasFrecuentesComponent() {
       respuesta:
         "Puedes visualizar tus resultados desde el Portal Web del paciente."
     }
-  ]
+  ];
 
   return (
 
-    <div
-      className="container py-15"
-      style={{
-        paddingTop: "140px",
-        paddingBottom: "100px"
-      }}
-    >
+    <div className="container py-5">
 
-      {/* TITULO */}
-      <div className="text-center mb-5">
+      <div
+        className="rounded-5 shadow-lg text-center text-white mb-5 overflow-hidden"
+        style={{
+          background: "linear-gradient(135deg, #0a2e5c 0%, #124b8a 100%)",
+          padding: "70px 20px"
+        }}
+      >
 
-        <h1 className="fw-bold">
+        <span className="badge bg-white bg-opacity-25 text-white mb-3 px-3 py-2 text-uppercase fw-semibold">
+          Centro de Ayuda
+        </span>
+
+        <h1 className="fw-bold display-5 mb-3">
           Preguntas Frecuentes
         </h1>
 
-        <p className="text-muted mt-3">
-          Resolvemos las dudas más comunes de nuestros pacientes.
+        <p className="opacity-90 mx-auto" style={{ maxWidth: "750px" }}>
+          Resolvemos las dudas más comunes de nuestros pacientes para brindarte una experiencia clara y sin complicaciones.
         </p>
 
       </div>
 
-      {/* ACCORDION */}
-      <div
-        className="accordion"
-        id="faqAccordion"
-      >
+      <div className="accordion shadow-sm rounded-4 overflow-hidden" id="faqAccordion">
 
         {preguntas.map((item, index) => (
 
@@ -69,7 +68,7 @@ function PreguntasFrecuentesComponent() {
 
     </div>
 
-  )
+  );
 }
 
-export default PreguntasFrecuentesComponent
+export default PreguntasFrecuentesComponent;

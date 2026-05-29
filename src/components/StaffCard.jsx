@@ -1,176 +1,169 @@
-import { useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function StaffCard({
-    nombre,
-    especialidad,
-    sede,
-    imagen
+  nombre,
+  especialidad,
+  sede,
+  imagen
 }) {
 
-    const navigate = useNavigate()
+  const navigate = useNavigate();
+  const [mostrarModal, setMostrarModal] = useState(false);
 
-    const [mostrarModal, setMostrarModal] = useState(false)
+  return (
+    <>
 
-    return (
+      <div
+        className="bg-white border-0 shadow-sm rounded-4 p-4 staff-card h-100"
+      >
 
-        <>
-            {/* CARD */}
-            <div
-                className="card shadow-lg border mb-4 p-4 rounded-4"
-                style={{
-                    transition: "0.3s ease"
-                }}
-            >
+        <div className="d-flex align-items-center gap-3 flex-column flex-md-row text-center text-md-start">
 
-                <div className="row align-items-center">
+          <img
+            src={imagen}
+            alt={nombre}
+            className="rounded-circle shadow-sm"
+            style={{
+              width: "90px",
+              height: "90px",
+              objectFit: "cover"
+            }}
+          />
 
-                    {/* FOTO */}
-                    <div className="col-12 col-md-2 text-center mb-3 mb-md-0">
+          <div className="flex-grow-1">
 
-                        <img
-                            src={imagen}
-                            alt={nombre}
-                            className="img-fluid rounded-circle border"
-                            style={{
-                                width: "100px",
-                                height: "100px",
-                                objectFit: "cover"
-                            }}
-                        />
+            <p className="text-muted mb-1 small">
+              {especialidad}
+            </p>
 
-                    </div>
+            <h5 className="fw-bold text-primary mb-2">
+              {nombre}
+            </h5>
 
-                    {/* INFO */}
-                    <div className="col-12 col-md-6 text-center text-md-start">
+            <span className="badge bg-light text-dark border">
+              {sede}
+            </span>
 
-                        <p className="text-secondary mb-1">
-                            {especialidad}
-                        </p>
+          </div>
 
-                        <h5 className="fw-bold text-primary">
-                            {nombre}
-                        </h5>
+        </div>
 
-                        <span className="badge bg-light text-dark border">
-                            {sede}
-                        </span>
+        <div className="d-grid gap-2 mt-4">
 
-                    </div>
+          <button
+            className="btn btn-outline-primary rounded-pill"
+            onClick={() => setMostrarModal(true)}
+          >
+            Conócelo aquí
+          </button>
 
-                    {/* BOTONES */}
-                    <div className="col-12 col-md-4 mt-4 mt-md-0">
+          <button
+            className="btn btn-portal rounded-pill"
+            onClick={() => navigate("/portal-web")}
+          >
+            Haz una cita
+          </button>
 
-                        <div className="d-grid gap-2">
+        </div>
 
-                            {/* MODAL */}
-                            <button
-                                className="btn btn-outline-primary rounded-pill"
-                                onClick={() => setMostrarModal(true)}
-                            >
-                                Conócelo aquí
-                            </button>
+      </div>
 
-                            {/* REDIRECCION */}
-                            <button
-                                className="btn btn-primary rounded-pill"
-                                onClick={() => navigate("/portal-web")}
-                            >
-                                Haz una cita
-                            </button>
+      {mostrarModal && (
 
-                        </div>
+        <div
+          className="modal d-block"
+          style={{ backgroundColor: "rgba(0,0,0,0.5)" }}
+        >
 
-                    </div>
+          <div className="modal-dialog modal-dialog-centered">
 
-                </div>
+            <div className="modal-content rounded-4 p-3">
+
+              <div className="modal-header border-0">
+
+                <h5 className="fw-bold text-primary">
+                  Información del Médico
+                </h5>
+
+                <button
+                  className="btn-close"
+                  onClick={() => setMostrarModal(false)}
+                />
+
+              </div>
+
+              <div className="modal-body text-center">
+
+                <img
+                  src={imagen}
+                  alt={nombre}
+                  className="rounded-circle mb-3 shadow-sm"
+                  style={{ width: 120, height: 120, objectFit: "cover" }}
+                />
+
+                <h4 className="fw-bold text-primary">
+                  {nombre}
+                </h4>
+
+                <p className="text-muted">{especialidad}</p>
+
+                <span className="badge bg-primary mb-3">
+                  {sede}
+                </span>
+
+                <p className="text-muted small">
+                  Médico especialista altamente capacitado en atención clínica y tratamiento integral de pacientes.
+                </p>
+
+              </div>
+
+              <div className="modal-footer border-0">
+
+                <button
+                  className="btn btn-secondary rounded-pill"
+                  onClick={() => setMostrarModal(false)}
+                >
+                  Cerrar
+                </button>
+
+              </div>
 
             </div>
 
-            {/* MODAL */}
-            {mostrarModal && (
+          </div>
 
-                <div
-                    className="modal d-block"
-                    tabIndex="-1"
-                    style={{
-                        backgroundColor: "rgba(0,0,0,0.5)"
-                    }}
-                >
+        </div>
 
-                    <div className="modal-dialog modal-dialog-centered">
+      )}
 
-                        <div className="modal-content rounded-4">
+      <style>{`
+        .staff-card {
+          transition: all 0.3s ease;
+        }
 
-                            <div className="modal-header">
+        .staff-card:hover {
+          transform: translateY(-8px);
+          box-shadow: 0 18px 40px rgba(0,0,0,0.12);
+        }
 
-                                <h5 className="modal-title">
-                                    Información del Médico
-                                </h5>
+        .btn-portal {
+          background: linear-gradient(135deg, #1a73e8, #00c2a8);
+          color: #fff !important;
+          border: none;
+          border-radius: 12px;
+          padding: 11px 22px;
+          font-weight: 600;
+          transition: all 0.25s ease;
+          box-shadow: 0 6px 14px rgba(0, 194, 168, 0.25);
+        }
 
-                                <button
-                                    type="button"
-                                    className="btn-close"
-                                    onClick={() => setMostrarModal(false)}
-                                ></button>
+        .btn-portal:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 10px 20px rgba(0, 194, 168, 0.35);
+        }
+      `}</style>
 
-                            </div>
-
-                            <div className="modal-body text-center">
-
-                                <img
-                                    src={imagen}
-                                    alt={nombre}
-                                    className="rounded-circle mb-3"
-                                    style={{
-                                        width: "120px",
-                                        height: "120px",
-                                        objectFit: "cover"
-                                    }}
-                                />
-
-                                <h4 className="fw-bold text-primary">
-                                    {nombre}
-                                </h4>
-
-                                <p className="text-muted">
-                                    {especialidad}
-                                </p>
-
-                                <span className="badge bg-primary">
-                                    {sede}
-                                </span>
-
-                                <hr />
-
-                                <p>
-                                    Médico especialista altamente capacitado
-                                    en atención clínica y tratamiento integral
-                                    de pacientes.
-                                </p>
-
-                            </div>
-
-                            <div className="modal-footer">
-
-                                <button
-                                    className="btn btn-secondary"
-                                    onClick={() => setMostrarModal(false)}
-                                >
-                                    Cerrar
-                                </button>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            )}
-
-        </>
-
-    )
+    </>
+  );
 }

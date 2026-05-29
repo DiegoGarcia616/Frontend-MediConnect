@@ -1,4 +1,4 @@
-import DerechosCard from "./DerechosCard"
+import DerechosCard from "./DerechosCard";
 
 function DerechosPacienteComponent() {
 
@@ -23,45 +23,40 @@ function DerechosPacienteComponent() {
       descripcion:
         "Todo paciente debe recibir atención médica con respeto y sin discriminación."
     }
-  ]
+  ];
 
   return (
 
-    <div
-      className="container py-15"
-      style={{
-        paddingTop: "140px",
-        paddingBottom: "100px"
-      }}
-    >
+    <div className="container py-5">
 
-      <div className="text-center mb-5">
+      <div
+        className="rounded-5 shadow-lg text-center text-white mb-5 overflow-hidden"
+        style={{
+          background: "linear-gradient(135deg, #0a2e5c 0%, #124b8a 100%)",
+          padding: "70px 20px"
+        }}
+      >
 
-        <h1 className="fw-bold">
+        <span className="badge bg-white bg-opacity-25 text-white mb-3 px-3 py-2 text-uppercase fw-semibold">
+          Información del Paciente
+        </span>
+
+        <h1 className="fw-bold display-5 mb-3">
           Derechos y Deberes del Paciente
         </h1>
 
-        <p className="text-muted mt-3">
-          Conoce los principales derechos y responsabilidades
-          durante tu atención médica.
+        <p className="opacity-90 mx-auto" style={{ maxWidth: "750px" }}>
+          Conoce los principales derechos y responsabilidades durante tu atención médica,
+          garantizando una experiencia segura y respetuosa.
         </p>
 
       </div>
 
-      <div
-        className="row g-4 justify-content-center"
-        style={{
-          maxWidth: "1100px",
-          margin: "0 auto"
-        }}
-      >
+      <div className="row g-4 justify-content-center">
 
         {derechos.map((item, index) => (
 
-          <div
-            className="col-12 col-md-6"
-            key={index}
-          >
+          <div className="col-12 col-md-6 col-lg-5" key={index}>
 
             <DerechosCard
               titulo={item.titulo}
@@ -76,7 +71,7 @@ function DerechosPacienteComponent() {
 
     </div>
 
-  )
+  );
 }
 
-export default DerechosPacienteComponent
+export default DerechosPacienteComponent;

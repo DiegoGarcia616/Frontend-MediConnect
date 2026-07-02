@@ -55,6 +55,9 @@ import DashboardAdminLocal from "./pages/adminLocal/DashboardAdminLocal"
 import AdminLocalPacientes from "./pages/adminLocal/AdminLocalPacientes"
 import AdminLocalMedicos from "./pages/adminLocal/AdminLocalMedicos"
 import AdminLocalCitas from "./pages/adminLocal/AdminLocalCitas"
+import AdminLocalEspecialidades from "./pages/adminLocal/AdminLocalEspecialidades"
+import AdminLocalSedes from "./pages/adminLocal/AdminLocalSedes"
+import AdminLocalInasistencias from "./pages/adminLocal/AdminLocalInasistencias"
 
 // Páginas privadas - Admin Total
 import DashboardAdminTotal from "./pages/adminTotal/DashboardAdminTotal"
@@ -155,6 +158,9 @@ function App() {
             <Route path="/admin-local/pacientes" element={<AdminLocalPacientes />} />
             <Route path="/admin-local/medicos" element={<AdminLocalMedicos />} />
             <Route path="/admin-local/citas" element={<AdminLocalCitas />} />
+            <Route path="/admin-local/especialidades" element={<AdminLocalEspecialidades />} />
+            <Route path="/admin-local/sedes" element={<AdminLocalSedes />} />
+            <Route path="/admin-local/inasistencias" element={<AdminLocalInasistencias />} />
           </Route>
         </Route>
 

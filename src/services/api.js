@@ -86,4 +86,75 @@ export const getEspecialidades = async () => {
   return response.data;
 };
 
+// ── RF1: Buscar médicos con filtros ────────────────────────────────────────
+export const listarMedicos = async () => {
+  const res = await api.get("/api/admin-local/medicos");
+  return res.data;
+};
+
+export const buscarMedicos = async (filtros = {}) => {
+  const params = new URLSearchParams();
+  if (filtros.nombre)         params.append("nombre",         filtros.nombre);
+  if (filtros.idEspecialidad) params.append("idEspecialidad", filtros.idEspecialidad);
+  if (filtros.idSede)         params.append("idSede",         filtros.idSede);
+  if (filtros.modalidad)      params.append("modalidad",      filtros.modalidad);
+  if (filtros.diaSemana)      params.append("diaSemana",      filtros.diaSemana);
+  const res = await api.get(`/api/admin-local/medicos/buscar?${params}`);
+  return res.data;
+};
+
+// ── RF2: Especialidades ────────────────────────────────────────────────────
+export const listarEspecialidades = async () => {
+  const res = await api.get("/api/admin-local/especialidades");
+  return res.data;
+};
+
+export const crearEspecialidad = async (data) => {
+  const res = await api.post("/api/admin-local/especialidades", data);
+  return res.data;
+};
+
+export const actualizarEspecialidad = async (id, data) => {
+  const res = await api.put(`/api/admin-local/especialidades/${id}`, data);
+  return res.data;
+};
+
+// ── RF3: Sedes ─────────────────────────────────────────────────────────────
+export const listarSedes = async () => {
+  const res = await api.get("/api/admin-local/sedes");
+  return res.data;
+};
+
+export const crearSede = async (data) => {
+  const res = await api.post("/api/admin-local/sedes", data);
+  return res.data;
+};
+
+export const actualizarSede = async (id, data) => {
+  const res = await api.put(`/api/admin-local/sedes/${id}`, data);
+  return res.data;
+};
+
+export const cambiarEstadoSede = async (id, activa) => {
+  const res = await api.patch(`/api/admin-local/sedes/${id}/estado`, { activa });
+  return res.data;
+};
+
+// ── RF4: Inasistencia ──────────────────────────────────────────────────────
+export const listarMedicosConEstado = async () => {
+  const res = await api.get("/api/admin-local/medicos/estado");
+  return res.data;
+};
+
+export const registrarInasistencia = async (data) => {
+  // data: { idMedico, fechaInicio, fechaFin, motivo }
+  const res = await api.post("/api/admin-local/medicos/inasistencia", data);
+  return res.data;
+};
+
+export const reactivarMedico = async (idMedico) => {
+  const res = await api.put(`/api/admin-local/medicos/${idMedico}/reactivar`);
+  return res.data;
+};
+
 export default api;

@@ -14,12 +14,13 @@ export default function Terminos() {
   const contenidoActual = regulaciones.find(r => r.id === seccionActiva);
 
   return (
-    <div className="bg-light pb-5" style={{ minHeight: '100vh' }}>
+    <div className="bg-light pb-5">
+
       <Hero 
         title="Términos y Condiciones" 
         subtitle="Regulaciones para el uso seguro de nuestra plataforma de salud."
         background={ImagenTerminos} 
-        height="35vh"
+        height="60vh"
       />
       
       <div className="container" style={{ marginTop: '-4rem', position: 'relative', zIndex: 10 }}>
@@ -27,12 +28,19 @@ export default function Terminos() {
           
           <div className="col-12 col-lg-3">
             <div className="nav flex-column nav-pills gap-2 p-3 bg-white shadow-sm rounded-4 border border-light">
-              <p className="text-uppercase text-muted small fw-bold px-3 mb-2 mt-2 text-center text-lg-start">Navegación Legal</p>
+              <p className="text-uppercase text-muted small fw-bold px-3 mb-2 mt-2 text-center text-lg-start">
+                Navegación Legal
+              </p>
+
               {regulaciones.map((regla) => (
                 <button
                   key={regla.id}
                   onClick={() => setSeccionActiva(regla.id)}
-                  className={`nav-link text-center text-lg-start py-3 px-3 rounded-3 fw-medium ${seccionActiva === regla.id ? 'active shadow-sm text-white' : 'text-secondary bg-transparent'}`}
+                  className={`nav-link text-center text-lg-start py-3 px-3 rounded-3 fw-medium ${
+                    seccionActiva === regla.id
+                      ? 'active shadow-sm text-white'
+                      : 'text-secondary bg-transparent'
+                  }`}
                   style={seccionActiva === regla.id ? { backgroundColor: '#0a2e5c' } : {}}
                 >
                   {regla.titulo}
@@ -44,10 +52,11 @@ export default function Terminos() {
           <div className="col-12 col-lg-8">
             <div className="card border-0 shadow-sm rounded-4 h-100 p-4 p-md-5 bg-white">
               
-              {/* SOLUCIÓN RESPONSIVE: En móvil se apila (flex-column) y se centra, en PC va en fila (flex-md-row) */}
               <div className="mb-4 pb-3 border-bottom d-flex flex-column flex-md-row justify-content-md-between align-items-center text-center text-md-start gap-3">
                 <h3 className="fw-bold text-dark mb-0">{contenidoActual.titulo}</h3>
-                <span className="badge bg-light text-muted border px-3 py-2">Actualizado 2026</span>
+                <span className="badge bg-light text-muted border px-3 py-2">
+                  Actualizado 2026
+                </span>
               </div>
               
               <div className="text-secondary fs-6 lead lh-lg text-center text-md-start">

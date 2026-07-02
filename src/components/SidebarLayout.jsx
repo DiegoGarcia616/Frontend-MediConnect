@@ -1,8 +1,8 @@
-// NO USAR
-
-import { NavLink } from "react-router-dom"
-import { FiChevronLeft, FiChevronRight } from "react-icons/fi"
-import logo2 from "../images/logo.png"
+import { NavLink } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { FiChevronLeft, FiChevronRight, FiLogOut } from "react-icons/fi";
+import { useAuth } from "../hooks/useAuth";
+import logo2 from "../images/MediconnectLogo.png";
 
 export default function SidebarLayout({
   isOpen,
@@ -13,6 +13,109 @@ export default function SidebarLayout({
   accentDark,
   menuItems,
 }) {
+  const { logout, getNombre } = useAuth();
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  if (isMobile) {
+    return (
+      <div
+        style={{
+          position: "fixed",
+          bottom: 0,
+          left: 0,
+          width: "100%",
+          height: "72px",
+          background: "rgba(255,255,255,0.92)",
+          backdropFilter: "blur(14px)",
+          borderTop: `2px solid ${accentLight}`,
+          display: "flex",
+          alignItems: "center",
+          overflowX: "auto",
+          overflowY: "hidden",
+          zIndex: 2000,
+          boxShadow: "0 -4px 20px rgba(0,0,0,0.1)",
+          WebkitOverflowScrolling: "touch",
+          scrollbarWidth: "none",
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            minWidth: "max-content",
+            padding: "0 0.75rem",
+            gap: "0.75rem",
+            width: "100%",
+            justifyContent: "space-around",
+          }}
+        >
+          {menuItems.map((item, index) =>
+            item.section ? null : (
+              <NavLink
+                key={index}
+                to={item.path}
+                style={({ isActive }) => ({
+                  minWidth: "56px",
+                  height: "56px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  borderRadius: "16px",
+                  backgroundColor: isActive ? accentLight : "transparent",
+                  color: isActive ? accentColor : "#64748b",
+                  textDecoration: "none",
+                  transition: "all 0.25s ease",
+                  flexShrink: 0,
+                })}
+              >
+                <div
+                  style={{
+                    fontSize: "1.4rem",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  {item.icon}
+                </div>
+              </NavLink>
+            )
+          )}
+
+          <button
+            onClick={logout}
+            style={{
+              minWidth: "56px",
+              height: "56px",
+              border: "none",
+              backgroundColor: "#fee2e2",
+              color: "#dc2626",
+              borderRadius: "16px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              cursor: "pointer",
+              flexShrink: 0,
+              transition: "all 0.25s ease",
+            }}
+          >
+            <FiLogOut size={22} />
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div
       style={{
@@ -136,19 +239,19 @@ export default function SidebarLayout({
                 marginRight: isOpen ? "0.5rem" : "0",
               })}
               onMouseEnter={(e) => {
-                const active = e.currentTarget.getAttribute("aria-current")
+                const active = e.currentTarget.getAttribute("aria-current");
 
                 if (!active) {
-                  e.currentTarget.style.backgroundColor = accentLight
-                  e.currentTarget.style.color = accentColor
+                  e.currentTarget.style.backgroundColor = accentLight;
+                  e.currentTarget.style.color = accentColor;
                 }
               }}
               onMouseLeave={(e) => {
-                const active = e.currentTarget.getAttribute("aria-current")
+                const active = e.currentTarget.getAttribute("aria-current");
 
                 if (!active) {
-                  e.currentTarget.style.backgroundColor = "transparent"
-                  e.currentTarget.style.color = "#475569"
+                  e.currentTarget.style.backgroundColor = "transparent";
+                  e.currentTarget.style.color = "#475569";
                 }
               }}
             >
@@ -182,6 +285,89 @@ export default function SidebarLayout({
         )}
       </nav>
 
+      <div
+        style={{
+          borderTop: `2px solid ${accentLight}`,
+          backgroundColor: "#fff",
+        }}
+      >
+        <div
+          style={{
+            overflow: "hidden",
+            maxHeight: isOpen ? "60px" : "0px",
+            opacity: isOpen ? 1 : 0,
+            transition: "max-height 0.3s ease, opacity 0.3s ease",
+            padding: isOpen ? "0.9rem 1.1rem" : "0 1.1rem",
+          }}
+        >
+          <p
+            style={{
+              fontSize: "0.75rem",
+              color: "#64748b",
+              margin: "0 0 0.2rem",
+              fontWeight: 500,
+            }}
+          >
+            Usuario
+          </p>
+          <p
+            style={{
+              fontSize: "0.88rem",
+              color: accentColor,
+              margin: 0,
+              fontWeight: 700,
+              whiteSpace: "nowrap",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+            }}
+          >
+            {getNombre()}
+          </p>
+        </div>
+
+        <button
+          onClick={logout}
+          title={!isOpen ? "Cerrar sesión" : ""}
+          style={{
+            width: "100%",
+            padding: "0.85rem",
+            backgroundColor: "transparent",
+            border: "none",
+            color: "#dc2626",
+            cursor: "pointer",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            transition: "all 0.2s ease",
+            fontWeight: 600,
+            fontSize: "0.9rem",
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.backgroundColor = "#fee2e2";
+            e.currentTarget.style.color = "#991b1b";
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.backgroundColor = "transparent";
+            e.currentTarget.style.color = "#dc2626";
+          }}
+        >
+          <FiLogOut size={18} />
+          <span
+            style={{
+              marginLeft: "0.85rem",
+              whiteSpace: "nowrap",
+              overflow: "hidden",
+              maxWidth: isOpen ? "160px" : "0px",
+              opacity: isOpen ? 1 : 0,
+              transition:
+                "max-width 0.35s cubic-bezier(0.22,1,0.36,1), opacity 0.25s ease",
+            }}
+          >
+            Cerrar sesión
+          </span>
+        </button>
+      </div>
+
       <button
         onClick={() => setIsOpen(!isOpen)}
         style={{
@@ -206,12 +392,8 @@ export default function SidebarLayout({
           (e.currentTarget.style.backgroundColor = accentLight)
         }
       >
-        {isOpen ? (
-          <FiChevronLeft size={20} />
-        ) : (
-          <FiChevronRight size={20} />
-        )}
+        {isOpen ? <FiChevronLeft size={20} /> : <FiChevronRight size={20} />}
       </button>
     </div>
-  )
+  );
 }

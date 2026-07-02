@@ -253,7 +253,7 @@ function Footer() {
           <div className="footer-contact">
             <div><FiPhone /> 599 2000</div>
             <div><FiMail /> contacto@mediconnect.pe</div>
-            <div><FiMapPin /> San Isidro, Lima</div>
+            <div><FiMapPin /> Los Olivos, Lima</div>
           </div>
 
           <div className="footer-socials">

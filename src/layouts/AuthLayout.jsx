@@ -7,19 +7,21 @@ import AuthCarousel from "../components/auth/AuthCarousel"
 
 export default function AuthLayout() {
   return (
-    <div className="container-fluid p-0">
-      <div className="row g-0 vh-100">
-        {/* IZQUIERDA */}
-        <div className="col-lg-6 d-none d-lg-block vh-100">
+    <div className="container-fluid p-0" style={{ minHeight: "100vh" }}>
+      <div className="row g-0" style={{ minHeight: "100vh" }}>
+        <div className="col-lg-6 d-none d-lg-block" style={{ minHeight: "100vh" }}>
           <AuthCarousel />
         </div>
 
-        {/* DERECHA */}
         <div
-          className="col-12 col-lg-6 d-flex flex-column vh-100"
-          style={{ backgroundColor: "#e8f4fd" }}
+          className="col-12 col-lg-6 d-flex flex-column"
+          style={{
+            backgroundColor: "#e8f4fd",
+            minHeight: "100vh",
+            maxHeight: "100vh",
+            overflowY: "auto"
+          }}
         >
-          {/* NAVBAR (arriba, altura fija) */}
           <div
             className="px-4 px-lg-5"
             style={{
@@ -31,21 +33,35 @@ export default function AuthLayout() {
             <Navbar2 />
           </div>
 
-          {/* CONTENIDO*/}
           <div
-            className="px-4 px-lg-5 d-flex justify-content-center"
+            className="px-4 px-lg-5 d-flex justify-content-center auth-content"
             style={{
-              marginTop: "24px",  
               alignItems: "flex-start",
-              flex: "1 1 auto"     
+              flex: "1 1 auto"
             }}
           >
             <Outlet />
           </div>
-
-          <WhatsappBoton />
         </div>
       </div>
+
+      <WhatsappBoton />
+
+      <style>
+        {`
+          .auth-content {
+              margin-top: 24px;
+              padding-bottom: 40px;
+          }
+
+          @media (max-width: 992px) {
+              .auth-content {
+                  margin-top: 16px;
+                  padding-bottom: 90px;
+              }
+          }
+        `}
+      </style>
     </div>
   )
 }

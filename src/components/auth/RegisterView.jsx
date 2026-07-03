@@ -172,6 +172,7 @@ export default function RegisterView({ setView }) {
               align-items: center;
               justify-content: center;
               box-shadow: 0 10px 25px rgba(0,194,168,0.25);
+              flex-shrink: 0;
           }
 
           .auth-badge i {
@@ -179,7 +180,7 @@ export default function RegisterView({ setView }) {
               font-size: 1.6rem;
           }
 
-          @media (max-width: 576px) {
+          @media (max-width: 768px) {
               .register-wrapper {
                   max-width: 100%;
                   max-height: calc(100vh - 120px);
@@ -188,15 +189,45 @@ export default function RegisterView({ setView }) {
 
               .auth-card {
                   border-radius: 20px;
-                  padding: 24px 18px;
+                  padding: 26px 20px;
               }
 
               .auth-title {
-                  font-size: 2rem;
+                  font-size: 1.9rem;
               }
 
               .auth-subtitle {
                   margin-bottom: 20px;
+              }
+
+              .form-grid {
+                  grid-template-columns: 1fr;
+                  gap: 12px;
+              }
+
+              .auth-input {
+                  height: 50px;
+                  font-size: 0.9rem;
+              }
+          }
+
+          @media (max-width: 480px) {
+              .auth-card {
+                  padding: 20px 14px;
+              }
+
+              .auth-title {
+                  font-size: 1.6rem;
+              }
+
+              .auth-badge {
+                  width: 48px;
+                  height: 48px;
+                  border-radius: 14px;
+              }
+
+              .auth-badge i {
+                  font-size: 1.3rem;
               }
           }
         `}
@@ -286,7 +317,7 @@ export default function RegisterView({ setView }) {
             <button
               type="button"
               className="auth-link ms-1"
-              onClick={() => setView("login")}
+              onClick={() => setView("register")}
             >
               Iniciar sesión
             </button>

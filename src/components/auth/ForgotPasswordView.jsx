@@ -1,15 +1,14 @@
 export default function ForgotPasswordView({ setView }) {
   return (
-    <div
-      className="position-relative"
-      style={{
-        width: "100%",
-        maxWidth: "660px",
-        margin: "0 auto"
-      }}
-    >
+    <div className="position-relative forgot-wrapper">
       <style>
         {`
+          .forgot-wrapper {
+              width: 100%;
+              max-width: 660px;
+              margin: 0 auto;
+          }
+
           .auth-card {
               background: #ffffff;
               border-radius: 28px;
@@ -65,6 +64,8 @@ export default function ForgotPasswordView({ setView }) {
               font-weight: 600;
               margin-bottom: 8px;
               color: #334155;
+              text-align: left;
+              display: block;
           }
 
           .auth-input {
@@ -74,6 +75,7 @@ export default function ForgotPasswordView({ setView }) {
               padding-left: 16px;
               transition: all .25s ease;
               font-size: 0.95rem;
+              width: 100%;
           }
 
           .auth-input:focus {
@@ -106,6 +108,55 @@ export default function ForgotPasswordView({ setView }) {
               font-weight: 600;
               transition: 0.2s ease;
           }
+
+          @media (max-width: 768px) {
+              .auth-card {
+                  border-radius: 20px;
+                  padding: 30px 22px;
+              }
+
+              .auth-title {
+                  font-size: 1.9rem;
+              }
+
+              .auth-subtitle {
+                  margin-bottom: 24px;
+              }
+
+              .auth-input {
+                  height: 50px;
+                  font-size: 0.9rem;
+              }
+          }
+
+          @media (max-width: 480px) {
+              .forgot-wrapper {
+                  padding: 0 10px;
+              }
+
+              .auth-card {
+                  padding: 24px 16px;
+              }
+
+              .auth-title {
+                  font-size: 1.6rem;
+              }
+
+              .auth-header {
+                  flex-direction: column;
+                  gap: 8px;
+              }
+
+              .auth-badge {
+                  width: 48px;
+                  height: 48px;
+                  border-radius: 14px;
+              }
+
+              .auth-badge i {
+                  font-size: 1.3rem;
+              }
+          }
         `}
       </style>
 
@@ -135,5 +186,5 @@ export default function ForgotPasswordView({ setView }) {
         </div>
       </div>
     </div>
-  )
+  );
 }

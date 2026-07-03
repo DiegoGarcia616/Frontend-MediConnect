@@ -19,16 +19,15 @@ export default function LoginView({ setView }) {
   };
 
   return (
-    <div
-      className="position-relative"
-      style={{
-        width: "100%",
-        maxWidth: "660px",
-        margin: "0 auto"
-      }}
-    >
+    <div className="position-relative login-wrapper">
       <style>
         {`
+          .login-wrapper {
+              width: 100%;
+              max-width: 660px;
+              margin: 0 auto;
+          }
+
           .auth-card {
               background: #ffffff;
               border-radius: 28px;
@@ -163,11 +162,70 @@ export default function LoginView({ setView }) {
               align-items: center;
               justify-content: center;
               box-shadow: 0 10px 25px rgba(0,194,168,0.25);
+              flex-shrink: 0;
           }
 
           .auth-badge i {
               color: white;
               font-size: 1.6rem;
+          }
+
+          .doc-select {
+              max-width: 110px;
+              flex-shrink: 0;
+          }
+
+          @media (max-width: 768px) {
+              .auth-card {
+                  border-radius: 20px;
+                  padding: 30px 22px;
+              }
+
+              .auth-title {
+                  font-size: 2rem;
+              }
+
+              .auth-subtitle {
+                  margin-bottom: 24px;
+              }
+
+              .auth-input,
+              .form-select.auth-input {
+                  height: 50px;
+                  font-size: 0.9rem;
+              }
+
+              .doc-select {
+                  max-width: 90px;
+              }
+          }
+
+          @media (max-width: 480px) {
+              .login-wrapper {
+                  padding: 0 10px;
+              }
+
+              .auth-card {
+                  padding: 24px 16px;
+              }
+
+              .auth-title {
+                  font-size: 1.7rem;
+              }
+
+              .auth-badge {
+                  width: 48px;
+                  height: 48px;
+                  border-radius: 14px;
+              }
+
+              .auth-badge i {
+                  font-size: 1.3rem;
+              }
+
+              .doc-select {
+                  max-width: 80px;
+              }
           }
         `}
       </style>
@@ -191,8 +249,7 @@ export default function LoginView({ setView }) {
 
             <div className="d-flex gap-2">
               <select
-                className="form-select auth-input"
-                style={{ maxWidth: "110px" }}
+                className="form-select auth-input doc-select"
                 disabled={loading}
               >
                 <option>DNI</option>
@@ -233,7 +290,7 @@ export default function LoginView({ setView }) {
             </div>
           </div>
 
-          <div className="d-flex justify-content-between align-items-center mb-4">
+          <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
             <div className="d-flex align-items-center gap-2">
               <input type="checkbox" className="auth-check" id="remember" />
               <label htmlFor="remember" className="text-muted" style={{ fontSize: ".92rem" }}>

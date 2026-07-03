@@ -2,6 +2,8 @@ import axios from "axios";
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
+console.log("BASE_URL:", BASE_URL);
+
 const api = axios.create({
   baseURL: BASE_URL,
   headers: {
@@ -81,9 +83,44 @@ export const consultarReniec = async (dni) => {
   return response.data;
 };
 
+export const registerMedico = async (data) => {
+  const response = await api.post("/api/auth/registro/medico", data);
+  return response.data;
+};
+
 export const getEspecialidades = async () => {
   const response = await api.get("/api/especialidades");
   return response.data;
+};
+
+export const getConsultaContexto = async (idConsulta) => {
+  const res = await api.get(`/api/consultas/${idConsulta}/contexto`);
+  return res.data;
+};
+
+export const terminarConsulta = async (idConsulta) => {
+  const res = await api.put(`/api/consultas/finalizar/${idConsulta}`);
+  return res.data;
+};
+
+// DIAGNOSTICO
+export const registrarDiagnostico = async (consultaId, descripcion) => {
+  const res = await api.post(`/api/diagnosticos/consulta/${consultaId}`, {
+    descripcion,
+  });
+  return res.data;
+};
+
+// HISTORIAL
+export const getHistorialPaciente = async (idPaciente) => {
+  const res = await api.get(`/api/pacientes/${idPaciente}/historial`);
+  return res.data;
+};
+
+// COMENZAR CONSULTA (opcional centralizar)
+export const comenzarConsulta = async (idCita) => {
+  const res = await api.post(`/api/medico/consultas/comenzar/${idCita}`);
+  return res.data;
 };
 
 export default api;

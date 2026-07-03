@@ -58,6 +58,26 @@ export const getSedeById = async (id) => {
   return response.data;
 };
 
+export const createSede = async (data) => {
+  const response = await api.post("/api/sedes", data);
+  return response.data;
+};
+
+export const updateSede = async (id, data) => {
+  const response = await api.put(`/api/sedes/${id}`, data);
+  return response.data;
+};
+
+export const inactivarSede = async (id) => {
+  const response = await api.patch(`/api/sedes/${id}/inactivar`);
+  return response.data;
+};
+
+export const activarSede = async (id) => {
+  const response = await api.patch(`/api/sedes/${id}/activar`);
+  return response.data;
+};
+
 export const getAdminLocales = async () => {
   const response = await api.get("/api/admin-total/admin-locales");
   return response.data;
@@ -93,6 +113,31 @@ export const getEspecialidades = async () => {
   return response.data;
 };
 
+export const getEspecialidadById = async (id) => {
+  const response = await api.get(`/api/especialidades/${id}`);
+  return response.data;
+};
+
+export const createEspecialidad = async (data) => {
+  const response = await api.post("/api/especialidades", data);
+  return response.data;
+};
+
+export const updateEspecialidad = async (id, data) => {
+  const response = await api.put(`/api/especialidades/${id}`, data);
+  return response.data;
+};
+
+export const inactivarEspecialidad = async (id) => {
+  const response = await api.patch(`/api/especialidades/${id}/inactivar`);
+  return response.data;
+};
+
+export const activarEspecialidad = async (id) => {
+  const response = await api.patch(`/api/especialidades/${id}/activar`);
+  return response.data;
+};
+
 export const getConsultaContexto = async (idConsulta) => {
   const res = await api.get(`/api/consultas/${idConsulta}/contexto`);
   return res.data;
@@ -103,7 +148,6 @@ export const terminarConsulta = async (idConsulta) => {
   return res.data;
 };
 
-// DIAGNOSTICO
 export const registrarDiagnostico = async (consultaId, descripcion) => {
   const res = await api.post(`/api/diagnosticos/consulta/${consultaId}`, {
     descripcion,
@@ -111,16 +155,19 @@ export const registrarDiagnostico = async (consultaId, descripcion) => {
   return res.data;
 };
 
-// HISTORIAL
 export const getHistorialPaciente = async (idPaciente) => {
   const res = await api.get(`/api/pacientes/${idPaciente}/historial`);
   return res.data;
 };
 
-// COMENZAR CONSULTA (opcional centralizar)
 export const comenzarConsulta = async (idCita) => {
   const res = await api.post(`/api/medico/consultas/comenzar/${idCita}`);
   return res.data;
+};
+
+export const getMedicos = async () => {
+  const response = await api.get("/api/auth/medicos");
+  return response.data;
 };
 
 export default api;

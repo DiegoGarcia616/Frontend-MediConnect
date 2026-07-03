@@ -4,39 +4,40 @@ import { getEspecialidades, registerMedico } from "../services/api";
 
 export default function useRegistrarMedico(onSuccess) {
 
-    const [especialidades,setEspecialidades]=useState([]);
+    const [especialidades, setEspecialidades] = useState([]);
 
-    const [loading,setLoading]=useState(false);
+    const [loading, setLoading] = useState(false);
 
-    const [form,setForm]=useState({
+    const initialForm = {
+        primerNombre: "",
+        segundoNombre: "",
+        primerApellido: "",
+        segundoApellido: "",
+        dni: "",
+        edad: "",
+        password: "",
+        numeroColegiatura: "",
+        disponible: true,
+        idEspecialidades: []
+    };
 
-        primerNombre:"",
-        segundoNombre:"",
-        primerApellido:"",
-        segundoApellido:"",
-        dni:"",
-        edad:"",
-        password:"",
-        numeroColegiatura:"",
-        disponible:true,
-        idEspecialidades:[]
-    });
+    const [form, setForm] = useState(initialForm);
 
-    useEffect(()=>{
+    useEffect(() => {
 
         cargarEspecialidades();
 
-    },[]);
+    }, []);
 
-    const cargarEspecialidades=async()=>{
+    const cargarEspecialidades = async () => {
 
-        try{
+        try {
 
-            const data=await getEspecialidades();
+            const data = await getEspecialidades();
 
             setEspecialidades(data);
 
-        }catch{
+        } catch {
 
             toast.error("No se pudieron cargar las especialidades");
 
@@ -44,35 +45,41 @@ export default function useRegistrarMedico(onSuccess) {
 
     };
 
-    const handleChange=e=>{
+    const handleChange = e => {
 
-        const{name,value}=e.target;
+        const { name, value } = e.target;
 
-        setForm(prev=>({
+        setForm(prev => ({
 
             ...prev,
 
-            [name]:value
+            [name]: value
 
         }));
 
     };
 
-    const handleEspecialidad=e=>{
+    const handleEspecialidad = e => {
 
-        setForm(prev=>({
+        setForm(prev => ({
 
             ...prev,
 
-            idEspecialidades:[parseInt(e.target.value)]
+            idEspecialidades: [parseInt(e.target.value)]
 
         }));
 
     };
 
-    const registrar=async()=>{
+    const resetForm = () => {
 
-        try{
+        setForm(initialForm);
+
+    };
+
+    const registrar = async () => {
+
+        try {
 
             setLoading(true);
 
@@ -80,9 +87,11 @@ export default function useRegistrarMedico(onSuccess) {
 
             toast.success("Médico registrado correctamente");
 
-            if(onSuccess) onSuccess();
+            resetForm();
 
-        }catch(err){
+            if (onSuccess) onSuccess();
+
+        } catch (err) {
 
             toast.error(
 
@@ -92,7 +101,7 @@ export default function useRegistrarMedico(onSuccess) {
 
             );
 
-        }finally{
+        } finally {
 
             setLoading(false);
 
@@ -100,7 +109,7 @@ export default function useRegistrarMedico(onSuccess) {
 
     };
 
-    return{
+    return {
 
         form,
 
@@ -112,7 +121,9 @@ export default function useRegistrarMedico(onSuccess) {
 
         especialidades,
 
-        loading
+        loading,
+
+        resetForm
 
     }
 

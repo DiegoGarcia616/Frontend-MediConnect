@@ -64,6 +64,8 @@ import AdminTotalCitas from "./pages/adminTotal/AdminTotalCitas"
 import AdminTotalSedes from "./pages/adminTotal/AdminTotalSedes"
 import AdminTotalUsuarios from "./pages/adminTotal/AdminTotalUsuarios"
 
+import ConsultaMedica from "./pages/medico/ConsultaMedica";
+
 function App() {
   return (
     <Router>
@@ -145,6 +147,7 @@ function App() {
             <Route path="/medico/citas" element={<AgendaMedico />} />
             <Route path="/medico/pacientes" element={<MisPacientes />} />
             <Route path="/medico/historias" element={<HistoriasClinicas />} />
+            <Route path="/medico/consulta/:id" element={<ConsultaMedica />} />
           </Route>
         </Route>
 

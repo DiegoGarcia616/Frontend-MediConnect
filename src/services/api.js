@@ -170,4 +170,9 @@ export const getMedicos = async () => {
   return response.data;
 };
 
+export const getPacientes = async () => {
+  const response = await api.get("/api/auth/pacientes");
+  return response.data;
+};
+
 export default api;

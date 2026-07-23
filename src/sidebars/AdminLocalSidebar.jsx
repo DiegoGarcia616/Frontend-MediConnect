@@ -1,5 +1,5 @@
 import SidebarLayout from "../components/SidebarLayout"
-import { FiHome, FiUsers, FiCalendar, FiActivity } from "react-icons/fi"
+import { FiHome, FiUsers, FiCalendar, FiActivity, FiUser } from "react-icons/fi"
 
 const menuItems = [
   { section: "Panel" },
@@ -8,6 +8,8 @@ const menuItems = [
   { title: "Pacientes", path: "/admin-local/pacientes", icon: <FiUsers size={18} /> },
   { title: "Médicos", path: "/admin-local/medicos", icon: <FiActivity size={18} /> },
   { title: "Citas", path: "/admin-local/citas", icon: <FiCalendar size={18} /> },
+  { section: "Cuenta" },
+  { title: "Mi perfil", path: "/admin-local/perfil", icon: <FiUser size={18} /> },
 ]
 
 export default function AdminLocalSidebar({ isOpen, setIsOpen }) {

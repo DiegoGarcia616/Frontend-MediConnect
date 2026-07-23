@@ -1,3 +1,3 @@
 export default function MisPacientes() {
-    return <h1>Mis Pacientes</h1>
-  }
+  return <h1>Mis Pacientes (Médico)</h1>
+}

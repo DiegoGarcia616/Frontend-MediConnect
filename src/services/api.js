@@ -146,36 +146,6 @@ export const getSedeById = async (id) => {
   return response.data;
 };
 
-export const getAdminLocales = async () => {
-  const response = await api.get("/api/admin-total/admin-locales");
-  return response.data;
-};
-
-export const createAdminLocal = async (data) => {
-  const response = await api.post("/api/admin-total/admin-local", data);
-  return response.data;
-};
-
-export const updateAdminLocal = async (id, data) => {
-  const response = await api.put(`/api/admin-total/admin-local/${id}`, data);
-  return response.data;
-};
-
-export const deleteAdminLocal = async (id) => {
-  const response = await api.delete(`/api/admin-total/admin-local/${id}`);
-  return response.data;
-};
-
-export const consultarReniec = async (dni) => {
-  const response = await api.get(`/api/reniec/consultar/${dni}`);
-  return response.data;
-};
-
-export const registerMedico = async (data) => {
-  const response = await api.post("/api/auth/registro/medico", data);
-  return response.data;
-};
-
 export const getEspecialidadesAdmin = async () => {
   const response = await api.get("/api/especialidades/detalle");
   return response.data;
@@ -270,40 +240,66 @@ export const eliminarUsuario = async (id) => {
   return response.data;
 };
 
-export const getConsultaContexto = async (idConsulta) => {
-  const res = await api.get(`/api/consultas/${idConsulta}/contexto`);
-  return res.data;
-};
-
-export const terminarConsulta = async (idConsulta) => {
-  const res = await api.put(`/api/consultas/finalizar/${idConsulta}`);
-  return res.data;
-};
-
-export const registrarDiagnostico = async (consultaId, descripcion) => {
-  const res = await api.post(`/api/diagnosticos/consulta/${consultaId}`, {
-    descripcion,
-  });
-  return res.data;
-};
-
-export const getHistorialPaciente = async (idPaciente) => {
-  const res = await api.get(`/api/pacientes/${idPaciente}/historial`);
-  return res.data;
-};
-
-export const comenzarConsulta = async (idCita) => {
-  const res = await api.post(`/api/medico/consultas/comenzar/${idCita}`);
-  return res.data;
-};
-
-export const getMedicos = async () => {
-  const response = await api.get("/api/auth/medicos");
+export const getMedicosAdmin = async () => {
+  const response = await api.get("/api/medicos");
   return response.data;
 };
 
-export const getPacientes = async () => {
-  const response = await api.get("/api/auth/pacientes");
+export const getMedicoById = async (id) => {
+  const response = await api.get(`/api/medicos/${id}`);
+  return response.data;
+};
+
+export const completarDatosMedico = async (idUsuario, data) => {
+  const response = await api.post(`/api/medicos/${idUsuario}/completar-datos`, data);
+  return response.data;
+};
+
+export const actualizarEspecialidadSedeMedico = async (id, idEspecialidad, idSede) => {
+  const params = new URLSearchParams();
+  if (idEspecialidad) params.append("idEspecialidad", idEspecialidad);
+  if (idSede) params.append("idSede", idSede);
+  const response = await api.patch(`/api/medicos/${id}/especialidad-sede?${params.toString()}`);
+  return response.data;
+};
+
+export const actualizarDisponibilidadMedico = async (id, disponible) => {
+  const response = await api.patch(`/api/medicos/${id}/disponibilidad?disponible=${disponible}`);
+  return response.data;
+};
+
+export const activarMedico = async (id) => {
+  const response = await api.patch(`/api/medicos/${id}/activar`);
+  return response.data;
+};
+
+export const inactivarMedico = async (id) => {
+  const response = await api.patch(`/api/medicos/${id}/inactivar`);
+  return response.data;
+};
+
+export const completarDatosPaciente = async (idUsuario, data) => {
+  const response = await api.post(`/api/pacientes/${idUsuario}/completar-datos`, data);
+  return response.data;
+};
+
+export const buscarPacientesAdmin = async (termino) => {
+  const response = await api.get(`/api/pacientes/buscar?termino=${encodeURIComponent(termino)}`);
+  return response.data;
+};
+
+export const getMiContactoPaciente = async () => {
+  const response = await api.get("/api/pacientes/mi-contacto");
+  return response.data;
+};
+
+export const actualizarMiContactoPaciente = async (data) => {
+  const response = await api.put("/api/pacientes/mi-contacto", data);
+  return response.data;
+};
+
+export const getMiPerfilMedico = async () => {
+  const response = await api.get("/api/medicos/mi-perfil");
   return response.data;
 };
 

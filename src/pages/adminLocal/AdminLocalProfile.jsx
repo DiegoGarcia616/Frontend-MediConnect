@@ -1,21 +1,13 @@
 import { useState, useRef } from "react";
 import usePerfil from "../../hooks/usePerfil";
 
-export default function MiPerfil() {
-  const { perfil, contactoPaciente, loading, saving, uploadingFoto, guardarPerfil, guardarContactoPaciente, subirFoto, eliminarFoto } = usePerfil();
+export default function AdminLocalProfile() {
+  const { perfil, sede, loading, saving, uploadingFoto, guardarPerfil, subirFoto, eliminarFoto } = usePerfil();
 
   const inputFotoRef = useRef(null);
 
   const [showEditarPerfil, setShowEditarPerfil] = useState(false);
   const [formPerfil, setFormPerfil] = useState({ correo: "", direccion: "", estadoCivil: "" });
-
-  const [showEditarContacto, setShowEditarContacto] = useState(false);
-  const [formContacto, setFormContacto] = useState({
-    telefono: "",
-    contactoEmergenciaNombre: "",
-    contactoEmergenciaTelefono: "",
-    contactoEmergenciaParentesco: "",
-  });
 
   const [showConfirmFoto, setShowConfirmFoto] = useState(false);
 
@@ -34,24 +26,6 @@ export default function MiPerfil() {
     e.preventDefault();
     const ok = await guardarPerfil(formPerfil);
     if (ok) handleCerrarEditarPerfil();
-  };
-
-  const handleAbrirEditarContacto = () => {
-    setFormContacto({
-      telefono: contactoPaciente?.telefono || "",
-      contactoEmergenciaNombre: contactoPaciente?.contactoEmergenciaNombre || "",
-      contactoEmergenciaTelefono: contactoPaciente?.contactoEmergenciaTelefono || "",
-      contactoEmergenciaParentesco: contactoPaciente?.contactoEmergenciaParentesco || "",
-    });
-    setShowEditarContacto(true);
-  };
-
-  const handleCerrarEditarContacto = () => setShowEditarContacto(false);
-
-  const handleSubmitContacto = async (e) => {
-    e.preventDefault();
-    const ok = await guardarContactoPaciente(formContacto);
-    if (ok) handleCerrarEditarContacto();
   };
 
   const handleSeleccionarFoto = () => inputFotoRef.current?.click();
@@ -99,9 +73,14 @@ export default function MiPerfil() {
           .foto-placeholder { width: 140px; height: 140px; border-radius: 50%; background: linear-gradient(135deg, #2563eb, #1d4ed8); color: white; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 2.4rem; border: 4px solid #eff6ff; }
 
           .foto-nombre { font-size: 1.2rem; font-weight: 800; color: #0f172a; margin-bottom: 0.2rem; }
-          .foto-correo { font-size: 0.85rem; color: #64748b; margin-bottom: 1.4rem; }
+          .foto-correo { font-size: 0.85rem; color: #64748b; margin-bottom: 1rem; }
 
-          .foto-hc { font-size: 0.76rem; font-weight: 700; color: #2563eb; background: #eff6ff; padding: 0.3rem 0.8rem; border-radius: 999px; margin-bottom: 1.2rem; }
+          .foto-badges { display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; margin-bottom: 1.2rem; }
+
+          .badge { font-size: 0.72rem; font-weight: 700; padding: 0.3rem 0.75rem; border-radius: 999px; white-space: nowrap; }
+          .badge.rol { background: #eff6ff; color: #2563eb; }
+          .badge.estado-activo { background: #ecfdf5; color: #059669; }
+          .badge.estado-inactivo { background: #fef2f2; color: #dc2626; }
 
           .foto-botones { display: flex; gap: 0.6rem; width: 100%; }
 
@@ -118,12 +97,32 @@ export default function MiPerfil() {
           .btn-editar-mini:hover { background: #dbeafe; }
 
           .info-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.2rem; margin-bottom: 1.8rem; }
+          .info-grid:last-child { margin-bottom: 0; }
 
-          .info-item { display: flex; flex-direction: column; gap: 0.3rem; }
+          .info-item { display: flex; flex-direction: column; gap: 0.4rem; }
           .info-label { font-size: 0.72rem; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.03em; }
           .info-value { font-size: 0.94rem; font-weight: 600; color: #0f172a; }
 
-          .divider { border-top: 1px solid #f1f5f9; margin: 1.6rem 0; }
+          .readonly-note { font-size: 0.78rem; color: #94a3b8; font-style: italic; margin-top: 1.2rem; }
+
+          .sede-card { display: flex; gap: 1.4rem; align-items: flex-start; }
+          .sede-img-wrap { width: 100px; height: 100px; border-radius: 14px; overflow: hidden; flex-shrink: 0; background: #eff6ff; display: flex; align-items: center; justify-content: center; }
+          .sede-img { width: 100%; height: 100%; object-fit: cover; }
+          .sede-placeholder { color: #2563eb; }
+          .sede-info { flex: 1; }
+          .sede-nombre { font-size: 1.1rem; font-weight: 800; color: #0f172a; margin-bottom: 0.3rem; }
+          .sede-direccion { font-size: 0.86rem; color: #64748b; margin-bottom: 0.6rem; }
+          .sede-desc { font-size: 0.86rem; color: #475569; line-height: 1.5; }
+
+          .estado-row { display: flex; align-items: stretch; }
+          .estado-col { flex: 1; display: flex; flex-direction: column; gap: 0.5rem; padding: 0 1rem; }
+          .estado-col:first-child { padding-left: 0; }
+          .estado-col:last-child { padding-right: 0; }
+          .estado-sep { width: 1px; background: #f1f5f9; margin: 0 0.2rem; }
+          .estado-pill { display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.94rem; font-weight: 700; color: #0f172a; }
+          .dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+          .dot.activo { background: #059669; }
+          .dot.inactivo { background: #dc2626; }
 
           .modal-overlay { position: fixed; inset: 0; background: rgba(15,23,42,0.55); display: flex; align-items: center; justify-content: center; z-index: 1000; backdrop-filter: blur(2px); padding: 1rem; }
           .modal-box { background: white; border-radius: 20px; padding: 2rem; width: 100%; max-width: 480px; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 50px rgba(0,0,0,0.25); }
@@ -149,6 +148,10 @@ export default function MiPerfil() {
           @media (max-width: 900px) {
             .perfil-grid { grid-template-columns: 1fr; }
             .info-grid { grid-template-columns: 1fr; }
+            .estado-row { flex-direction: column; gap: 1rem; }
+            .estado-col { padding: 0 !important; }
+            .estado-sep { display: none; }
+            .sede-card { flex-direction: column; }
           }
         `}
       </style>
@@ -162,7 +165,7 @@ export default function MiPerfil() {
         </div>
         <div>
           <div className="page-title">Mi Perfil</div>
-          <div className="page-subtitle">Gestiona tu información personal y de contacto</div>
+          <div className="page-subtitle">Consulta tu información personal y de sede</div>
         </div>
       </div>
 
@@ -181,9 +184,12 @@ export default function MiPerfil() {
           <div className="foto-nombre">{perfil?.nombres} {perfil?.apellidoPaterno} {perfil?.apellidoMaterno}</div>
           <div className="foto-correo">{perfil?.correo}</div>
 
-          {contactoPaciente?.codigoHistoriaClinica && (
-            <div className="foto-hc">HC: {contactoPaciente.codigoHistoriaClinica}</div>
-          )}
+          <div className="foto-badges">
+            <span className="badge rol">{perfil?.nombreRol}</span>
+            <span className={`badge ${perfil?.estado === "ACTIVO" ? "estado-activo" : "estado-inactivo"}`}>
+              {perfil?.estado}
+            </span>
+          </div>
 
           <input type="file" ref={inputFotoRef} accept="image/*" style={{ display: "none" }} onChange={handleArchivoSeleccionado} />
 
@@ -231,6 +237,14 @@ export default function MiPerfil() {
                 <span className="info-value">{perfil?.correo}</span>
               </div>
               <div className="info-item">
+                <span className="info-label">Fecha de nacimiento</span>
+                <span className="info-value">{perfil?.fechaNacimiento || "N/A"}</span>
+              </div>
+              <div className="info-item">
+                <span className="info-label">Sexo</span>
+                <span className="info-value">{perfil?.sexo || "N/A"}</span>
+              </div>
+              <div className="info-item">
                 <span className="info-label">Estado civil</span>
                 <span className="info-value">{perfil?.estadoCivil || "N/A"}</span>
               </div>
@@ -238,49 +252,80 @@ export default function MiPerfil() {
                 <span className="info-label">Dirección</span>
                 <span className="info-value">{perfil?.direccion || "N/A"}</span>
               </div>
+              <div className="info-item">
+                <span className="info-label">Departamento</span>
+                <span className="info-value">{perfil?.departamento || "N/A"}</span>
+              </div>
+              <div className="info-item">
+                <span className="info-label">Provincia</span>
+                <span className="info-value">{perfil?.provincia || "N/A"}</span>
+              </div>
+              <div className="info-item">
+                <span className="info-label">Distrito</span>
+                <span className="info-value">{perfil?.distrito || "N/A"}</span>
+              </div>
             </div>
           </div>
 
-          {contactoPaciente && (
+          <div className="card" style={{ marginBottom: "1.6rem" }}>
+            <div className="section-title">Cuenta y accesos</div>
+
+            <div className="estado-row">
+              <div className="estado-col">
+                <span className="info-label">Rol</span>
+                <span className="info-value">{perfil?.nombreRol}</span>
+              </div>
+
+              <div className="estado-sep" />
+
+              <div className="estado-col">
+                <span className="info-label">Estado</span>
+                <span className="estado-pill">
+                  <span className={`dot ${perfil?.estado === "ACTIVO" ? "activo" : "inactivo"}`} />
+                  {perfil?.estado}
+                </span>
+              </div>
+
+              <div className="estado-sep" />
+
+              <div className="estado-col">
+                <span className="info-label">Intentos fallidos</span>
+                <span className="info-value">{perfil?.intentosFallidos ?? 0}</span>
+              </div>
+            </div>
+
+            <p className="readonly-note">Estos datos son gestionados por la administración y no pueden ser editados desde aquí.</p>
+          </div>
+
+          {sede && (
             <div className="card">
-              <div className="section-title">
-                Datos de contacto y emergencia
-                <button className="btn-editar-mini" onClick={handleAbrirEditarContacto}>
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#2563eb" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
-                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
-                  </svg>
-                  Editar
-                </button>
+              <div className="section-title">Sede asignada</div>
+
+              <div className="sede-card">
+                <div className="sede-img-wrap">
+                  {sede.fotoUrl || sede.foto ? (
+                    <img src={sede.fotoUrl || sede.foto} alt={sede.nombre} className="sede-img" />
+                  ) : (
+                    <svg className="sede-placeholder" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#2563eb" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M3 21h18" />
+                      <path d="M5 21V7l7-4 7 4v14" />
+                      <path d="M9 9h1" />
+                      <path d="M9 13h1" />
+                      <path d="M14 9h1" />
+                      <path d="M14 13h1" />
+                      <path d="M10 21v-4h4v4" />
+                    </svg>
+                  )}
+                </div>
+
+                <div className="sede-info">
+                  <div className="sede-nombre">{sede.nombre}</div>
+                  <div className="sede-direccion">{sede.direccion}</div>
+                  {sede.descripcion && <p className="sede-desc">{sede.descripcion}</p>}
+                </div>
               </div>
 
-              <div className="info-grid">
-                <div className="info-item">
-                  <span className="info-label">Historia clínica</span>
-                  <span className="info-value">{contactoPaciente.codigoHistoriaClinica || "N/A"}</span>
-                </div>
-                <div className="info-item">
-                  <span className="info-label">Teléfono</span>
-                  <span className="info-value">{contactoPaciente.telefono || "N/A"}</span>
-                </div>
-              </div>
-
-              <div className="divider" />
-
-              <div className="info-grid" style={{ marginBottom: 0 }}>
-                <div className="info-item">
-                  <span className="info-label">Contacto de emergencia</span>
-                  <span className="info-value">{contactoPaciente.contactoEmergenciaNombre || "N/A"}</span>
-                </div>
-                <div className="info-item">
-                  <span className="info-label">Teléfono de emergencia</span>
-                  <span className="info-value">{contactoPaciente.contactoEmergenciaTelefono || "N/A"}</span>
-                </div>
-                <div className="info-item">
-                  <span className="info-label">Parentesco</span>
-                  <span className="info-value">{contactoPaciente.contactoEmergenciaParentesco || "N/A"}</span>
-                </div>
-              </div>
+              <p className="readonly-note">La sede es asignada por la administración y no puede ser modificada desde aquí.</p>
             </div>
           )}
         </div>
@@ -335,70 +380,6 @@ export default function MiPerfil() {
 
               <div className="modal-actions">
                 <button type="button" className="btn-cancel" onClick={handleCerrarEditarPerfil}>
-                  Cancelar
-                </button>
-                <button type="submit" className="btn-save" disabled={saving}>
-                  {saving ? "Guardando..." : "Guardar cambios"}
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
-
-      {showEditarContacto && (
-        <div className="modal-overlay">
-          <div className="modal-box">
-            <div className="modal-header">
-              <div className="modal-title">Editar datos de contacto</div>
-              <button className="close-btn" onClick={handleCerrarEditarContacto}>
-                <svg viewBox="0 0 24 24" fill="none" stroke="#64748b" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <line x1="18" y1="6" x2="6" y2="18" />
-                  <line x1="6" y1="6" x2="18" y2="18" />
-                </svg>
-              </button>
-            </div>
-
-            <form onSubmit={handleSubmitContacto}>
-              <label className="modal-label">Teléfono</label>
-              <input
-                type="text"
-                className="modal-input"
-                value={formContacto.telefono}
-                onChange={(e) => setFormContacto((prev) => ({ ...prev, telefono: e.target.value }))}
-                placeholder="Ej: 987654321"
-                autoFocus
-              />
-
-              <label className="modal-label">Nombre de contacto de emergencia</label>
-              <input
-                type="text"
-                className="modal-input"
-                value={formContacto.contactoEmergenciaNombre}
-                onChange={(e) => setFormContacto((prev) => ({ ...prev, contactoEmergenciaNombre: e.target.value }))}
-                placeholder="Ej: María Pérez"
-              />
-
-              <label className="modal-label">Teléfono de contacto de emergencia</label>
-              <input
-                type="text"
-                className="modal-input"
-                value={formContacto.contactoEmergenciaTelefono}
-                onChange={(e) => setFormContacto((prev) => ({ ...prev, contactoEmergenciaTelefono: e.target.value }))}
-                placeholder="Ej: 987654321"
-              />
-
-              <label className="modal-label">Parentesco</label>
-              <input
-                type="text"
-                className="modal-input"
-                value={formContacto.contactoEmergenciaParentesco}
-                onChange={(e) => setFormContacto((prev) => ({ ...prev, contactoEmergenciaParentesco: e.target.value }))}
-                placeholder="Ej: Madre, Padre, Hermano..."
-              />
-
-              <div className="modal-actions">
-                <button type="button" className="btn-cancel" onClick={handleCerrarEditarContacto}>
                   Cancelar
                 </button>
                 <button type="submit" className="btn-save" disabled={saving}>

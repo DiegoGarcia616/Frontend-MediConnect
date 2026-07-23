@@ -50,12 +50,14 @@ import AgendaMedico from "./pages/medico/AgendaMedico"
 import MisPacientes from "./pages/medico/MisPacientes"
 import HistoriasClinicas from "./pages/medico/HistoriasClinicas"
 import ConsultaMedica from "./pages/medico/ConsultaMedica"
+import ProfileMedico from "./pages/medico/ProfileMedico"
 
 // Páginas privadas - Admin Local
 import DashboardAdminLocal from "./pages/adminLocal/DashboardAdminLocal"
 import AdminLocalPacientes from "./pages/adminLocal/AdminLocalPacientes"
 import AdminLocalMedicos from "./pages/adminLocal/AdminLocalMedicos"
 import AdminLocalCitas from "./pages/adminLocal/AdminLocalCitas"
+import AdminLocalProfile from "./pages/adminLocal/AdminLocalProfile"
 
 // Páginas privadas - Admin Total
 import DashboardAdminTotal from "./pages/adminTotal/DashboardAdminTotal"
@@ -146,6 +148,7 @@ function App() {
             <Route path="/medico/pacientes" element={<MisPacientes />} />
             <Route path="/medico/historias" element={<HistoriasClinicas />} />
             <Route path="/medico/consulta/:id" element={<ConsultaMedica />} />
+            <Route path="/medico/perfil" element={<ProfileMedico />} />
           </Route>
         </Route>
 
@@ -156,6 +159,7 @@ function App() {
             <Route path="/admin-local/pacientes" element={<AdminLocalPacientes />} />
             <Route path="/admin-local/medicos" element={<AdminLocalMedicos />} />
             <Route path="/admin-local/citas" element={<AdminLocalCitas />} />
+            <Route path="/admin-local/perfil" element={<AdminLocalProfile />} />
           </Route>
         </Route>
 

@@ -1,3 +1,3 @@
 export default function MisCitas() {
-    return <h1>Mis Citas</h1>
-  }
+  return <h1>Mis Citas (Paciente)</h1>
+}

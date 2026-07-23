@@ -1,4 +1,10 @@
-import StaffCard from "../../components/StaffCard";
+import { useState, useMemo } from "react";
+import Hero from "../../components/Hero";
+import FilterBar from "../../components/staff/FilterBar";
+import StaffGrid from "../../components/staff/StaffGrid";
+
+const accentColor = "#0a2e5c";
+const highlightColor = "#12b886";
 
 const doctores = [
   {
@@ -25,68 +31,45 @@ const doctores = [
 ];
 
 export default function StaffMedico() {
+  const [busqueda, setBusqueda] = useState("");
+  const [especialidad, setEspecialidad] = useState("");
+  const [sede, setSede] = useState("");
+
+  const especialidades = useMemo(() => [...new Set(doctores.map((d) => d.especialidad))], []);
+  const sedes = useMemo(() => [...new Set(doctores.map((d) => d.sede))], []);
+
+  const doctoresFiltrados = doctores.filter((doc) => {
+    const coincideNombre = doc.nombre.toLowerCase().includes(busqueda.toLowerCase());
+    const coincideEspecialidad = especialidad === "" || doc.especialidad === especialidad;
+    const coincideSede = sede === "" || doc.sede === sede;
+    return coincideNombre && coincideEspecialidad && coincideSede;
+  });
+
   return (
-    <div className="container py-5">
+    <div className="bg-light" style={{ minHeight: "100vh" }}>
+      <Hero
+        title="Conoce a nuestros especialistas"
+        subtitle="Profesionales altamente capacitados comprometidos con brindarte atención médica de calidad."
+        backgroundColor={`linear-gradient(135deg, ${accentColor} 0%, #124b8a 100%)`}
+        height="45vh"
+      />
 
-      <div
-        className="rounded-5 shadow-lg text-center text-white mb-5 overflow-hidden"
-        style={{
-          background: "linear-gradient(135deg, #0a2e5c 0%, #124b8a 100%)",
-          padding: "60px 20px"
-        }}
-      >
-        <span className="badge bg-white bg-opacity-25 text-white mb-3 px-3 py-2 text-uppercase fw-semibold">
-          Equipo Médico
-        </span>
+      <div className="container py-5">
+        <FilterBar
+          busqueda={busqueda}
+          onBusquedaChange={(e) => setBusqueda(e.target.value)}
+          especialidad={especialidad}
+          onEspecialidadChange={setEspecialidad}
+          sede={sede}
+          onSedeChange={setSede}
+          especialidades={especialidades}
+          sedes={sedes}
+          accentColor={accentColor}
+          highlightColor={highlightColor}
+        />
 
-        <h1 className="fw-bold display-5 mb-3">
-          Conoce a nuestros especialistas
-        </h1>
-
-        <p className="opacity-90 mx-auto" style={{ maxWidth: "700px" }}>
-          Profesionales altamente capacitados comprometidos con brindarte atención médica de calidad.
-        </p>
+        <StaffGrid doctores={doctoresFiltrados} accentColor={accentColor} highlightColor={highlightColor} />
       </div>
-
-      <div className="mb-5">
-        <div className="bg-white shadow-sm rounded-4 p-4 border">
-
-          <div className="row align-items-center g-3">
-
-            <div className="col-md-4 fw-bold text-primary fs-5 text-center text-md-start">
-              Buscar médico o especialidad
-            </div>
-
-            <div className="col-md-8">
-              <input
-                type="text"
-                className="form-control form-control-lg rounded-pill px-4"
-                placeholder="Ej: Cardiología, Neurología, Dr. Juan..."
-              />
-            </div>
-
-          </div>
-
-        </div>
-      </div>
-
-      <div className="row g-4">
-
-        {doctores.map((doctor) => (
-
-          <div className="col-12 col-md-6 col-lg-4" key={doctor.id}>
-            <StaffCard
-              nombre={doctor.nombre}
-              especialidad={doctor.especialidad}
-              sede={doctor.sede}
-              imagen={doctor.imagen}
-            />
-          </div>
-
-        ))}
-
-      </div>
-
     </div>
   );
 }

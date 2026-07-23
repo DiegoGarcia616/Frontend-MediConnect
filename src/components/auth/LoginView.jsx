@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useLogin } from "../../hooks/useLogin";
+import ForgotPasswordModal from "./ForgotPasswordModal";
 
 export default function LoginView({ setView }) {
   const {
@@ -12,6 +13,7 @@ export default function LoginView({ setView }) {
   } = useLogin();
 
   const [showPassword, setShowPassword] = useState(false);
+  const [showForgotModal, setShowForgotModal] = useState(false);
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -36,22 +38,21 @@ export default function LoginView({ setView }) {
           <label className="auth-label">Documento</label>
 
           <div className="d-flex gap-2">
-            <select className="form-select auth-input doc-select" disabled={loading}>
-              <option>DNI</option>
-            </select>
+            <div className="doc-fixed">DNI</div>
 
             <input
               type="text"
               className="form-control auth-input"
               placeholder="Nro de documento"
               value={dni}
-              onChange={(e) => setDni(e.target.value)}
+              onChange={(e) => setDni(e.target.value.replace(/\D/g, "").slice(0, 8))}
+              maxLength={8}
               disabled={loading}
             />
           </div>
         </div>
 
-        <div className="mb-3-fluid">
+        <div className="mb-4-fluid">
           <label className="auth-label">Contraseña</label>
 
           <div className="password-wrapper">
@@ -75,15 +76,8 @@ export default function LoginView({ setView }) {
           </div>
         </div>
 
-        <div className="d-flex justify-content-between align-items-center mb-4-fluid flex-wrap gap-2">
-          <div className="d-flex align-items-center gap-2">
-            <input type="checkbox" className="auth-check" id="remember" />
-            <label htmlFor="remember" className="text-muted" style={{ fontSize: "0.85rem" }}>
-              Recordarme
-            </label>
-          </div>
-
-          <button type="button" className="auth-link" onClick={() => setView("forgot")}>
+        <div className="text-end mb-4-fluid">
+          <button type="button" className="auth-link" onClick={() => setShowForgotModal(true)}>
             ¿Olvidaste tu contraseña?
           </button>
         </div>
@@ -99,6 +93,8 @@ export default function LoginView({ setView }) {
           </button>
         </div>
       </form>
+
+      <ForgotPasswordModal open={showForgotModal} onClose={() => setShowForgotModal(false)} />
     </div>
   );
 }

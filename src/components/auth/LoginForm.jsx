@@ -1,7 +1,6 @@
 import { useState } from "react"
 import LoginView from "./LoginView"
 import RegisterView from "./RegisterView"
-import ForgotPasswordView from "./ForgotPasswordView"
 
 export default function LoginForm() {
   const [view, setView] = useState("login")
@@ -105,6 +104,22 @@ export default function LoginForm() {
               box-shadow: 0 0 0 4px rgba(0,194,168,0.12);
           }
 
+          .doc-fixed {
+              height: clamp(38px, 6.5vh, 56px);
+              border-radius: 12px;
+              border: 1px solid #dbe3ec;
+              background: #f1f5f9;
+              color: #334155;
+              font-weight: 700;
+              font-size: clamp(0.82rem, 1.6vh, 0.95rem);
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              padding: 0 16px;
+              max-width: 100px;
+              flex-shrink: 0;
+          }
+
           .password-wrapper {
               position: relative;
           }
@@ -169,12 +184,6 @@ export default function LoginForm() {
               color: #00a896;
           }
 
-          .auth-check {
-              accent-color: #00c2a8;
-              width: 16px;
-              height: 16px;
-          }
-
           .form-grid {
               display: grid;
               grid-template-columns: 1fr 1fr;
@@ -183,11 +192,6 @@ export default function LoginForm() {
 
           .full {
               grid-column: 1 / -1;
-          }
-
-          .doc-select {
-              max-width: 100px;
-              flex-shrink: 0;
           }
 
           .mb-4-fluid {
@@ -213,7 +217,7 @@ export default function LoginForm() {
                   padding: 0 10px;
               }
 
-              .doc-select {
+              .doc-fixed {
                   max-width: 80px;
               }
           }
@@ -223,7 +227,6 @@ export default function LoginForm() {
       <div className="auth-wrapper">
         {view === "login" && <LoginView setView={setView} />}
         {view === "register" && <RegisterView setView={setView} />}
-        {view === "forgot" && <ForgotPasswordView setView={setView} />}
       </div>
     </>
   )

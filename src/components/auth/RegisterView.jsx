@@ -7,8 +7,6 @@ export default function RegisterView({ setView }) {
     setDni,
     correo,
     setCorreo,
-    telefono,
-    setTelefono,
     password,
     setPassword,
     loading,
@@ -37,7 +35,7 @@ export default function RegisterView({ setView }) {
 
       <form onSubmit={onSubmit}>
         <div className="form-grid">
-          <div>
+          <div className="full">
             <label className="auth-label">DNI</label>
             <input
               type="text"
@@ -47,19 +45,6 @@ export default function RegisterView({ setView }) {
               onChange={(e) => setDni(e.target.value.replace(/\D/g, "").slice(0, 8))}
               disabled={loading}
               maxLength={8}
-            />
-          </div>
-
-          <div>
-            <label className="auth-label">Teléfono</label>
-            <input
-              type="text"
-              className="form-control auth-input"
-              placeholder="Ingrese su teléfono"
-              value={telefono}
-              onChange={(e) => setTelefono(e.target.value.replace(/\D/g, "").slice(0, 9))}
-              disabled={loading}
-              maxLength={9}
             />
           </div>
 

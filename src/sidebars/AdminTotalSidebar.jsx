@@ -6,6 +6,8 @@ import {
   FiActivity,
   FiDatabase,
   FiShield,
+  FiClipboard,
+  FiUser,
 } from "react-icons/fi"
 
 const menuItems = [
@@ -17,7 +19,9 @@ const menuItems = [
   { title: "Citas", path: "/admin/citas", icon: <FiCalendar size={18} /> },
   { section: "Configuración" },
   { title: "Sedes", path: "/admin/sedes", icon: <FiDatabase size={18} /> },
-  { title: "Usuarios y roles", path: "/admin/usuarios", icon: <FiShield size={18} /> },
+  { title: "Especialidades", path: "/admin/especialidades", icon: <FiClipboard size={18} /> },
+  { title: "Usuarios", path: "/admin/usuarios", icon: <FiShield size={18} /> },
+  { title: "Perfil", path: "/admin/perfil", icon: <FiUser size={18} /> },
 ]
 
 export default function AdminTotalSidebar({ isOpen, setIsOpen }) {

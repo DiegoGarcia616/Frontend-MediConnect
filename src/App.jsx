@@ -49,6 +49,7 @@ import DashboardMedico from "./pages/medico/DashboardMedico"
 import AgendaMedico from "./pages/medico/AgendaMedico"
 import MisPacientes from "./pages/medico/MisPacientes"
 import HistoriasClinicas from "./pages/medico/HistoriasClinicas"
+import ConsultaMedica from "./pages/medico/ConsultaMedica"
 
 // Páginas privadas - Admin Local
 import DashboardAdminLocal from "./pages/adminLocal/DashboardAdminLocal"
@@ -63,8 +64,8 @@ import AdminTotalMedicos from "./pages/adminTotal/AdminTotalMedicos"
 import AdminTotalCitas from "./pages/adminTotal/AdminTotalCitas"
 import AdminTotalSedes from "./pages/adminTotal/AdminTotalSedes"
 import AdminTotalUsuarios from "./pages/adminTotal/AdminTotalUsuarios"
-
-import ConsultaMedica from "./pages/medico/ConsultaMedica";
+import AdminTotalEspecialidades from "./pages/adminTotal/AdminTotalEspecialidades"
+import AdminTotalProfile from "./pages/adminTotal/AdminTotalProfile"
 
 function App() {
   return (
@@ -113,10 +114,7 @@ function App() {
           <Route path="/nosotros" element={<Nosotros />} />
           <Route path="/especialidades" element={<Especialidades />} />
           <Route path="/staff-medico" element={<StaffMedico />} />
-          <Route
-            path="/derechos-y-deberes-del-paciente"
-            element={<DerechosPaciente />}
-          />
+          <Route path="/derechos-y-deberes-del-paciente" element={<DerechosPaciente />} />
           <Route path="/preguntas-frecuentes" element={<PreguntasFrecuentes />} />
           <Route path="/libro-de-reclamaciones" element={<LibroReclamaciones />} />
           <Route path="/politica-de-privacidad" element={<Privacidad />} />
@@ -152,7 +150,7 @@ function App() {
         </Route>
 
         {/* Portal Admin Local */}
-        <Route element={<ProtectedRoute allowedRoles={["ADMIN_LOCAL"]} />}>
+        <Route element={<ProtectedRoute allowedRoles={["ADMINISTRADOR_LOCAL"]} />}>
           <Route element={<AppLayout Sidebar={AdminLocalSidebar} />}>
             <Route path="/admin-local" element={<DashboardAdminLocal />} />
             <Route path="/admin-local/pacientes" element={<AdminLocalPacientes />} />
@@ -162,21 +160,23 @@ function App() {
         </Route>
 
         {/* Portal Admin Total */}
-        <Route element={<ProtectedRoute allowedRoles={["ADMIN_TOTAL"]} />}>
+        <Route element={<ProtectedRoute allowedRoles={["ADMINISTRADOR_TOTAL"]} />}>
           <Route element={<AppLayout Sidebar={AdminTotalSidebar} />}>
             <Route path="/admin" element={<DashboardAdminTotal />} />
             <Route path="/admin/pacientes" element={<AdminTotalPacientes />} />
             <Route path="/admin/medicos" element={<AdminTotalMedicos />} />
             <Route path="/admin/citas" element={<AdminTotalCitas />} />
             <Route path="/admin/sedes" element={<AdminTotalSedes />} />
+            <Route path="/admin/especialidades" element={<AdminTotalEspecialidades />} />
             <Route path="/admin/usuarios" element={<AdminTotalUsuarios />} />
+            <Route path="/admin/perfil" element={<AdminTotalProfile />} />
           </Route>
         </Route>
       </Routes>
 
-      <ToastContainer 
-        position="top-right" 
-        autoClose={3000} 
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
         theme="colored"
         hideProgressBar={false}
         newestOnTop

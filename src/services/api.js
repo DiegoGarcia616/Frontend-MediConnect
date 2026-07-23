@@ -54,6 +54,30 @@ export const getPacientePerfil = async () => {
   return response.data;
 };
 
+export const getPerfil = async () => {
+  const response = await api.get("/api/perfil");
+  return response.data;
+};
+
+export const actualizarPerfil = async (data) => {
+  const response = await api.put("/api/perfil", data);
+  return response.data;
+};
+
+export const subirMiFotoPerfil = async (archivo) => {
+  const formData = new FormData();
+  formData.append("archivo", archivo);
+  const response = await api.put("/api/foto-perfil/mi-foto", formData, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
+  return response.data;
+};
+
+export const eliminarMiFotoPerfil = async () => {
+  const response = await api.delete("/api/foto-perfil/mi-foto");
+  return response.data;
+};
+
 export const updatePacienteContacto = async (correo, telefono, ubigeo) => {
   const response = await api.put("/api/paciente/contacto", {
     correo,
@@ -63,13 +87,13 @@ export const updatePacienteContacto = async (correo, telefono, ubigeo) => {
   return response.data;
 };
 
-export const getSedes = async () => {
-  const response = await api.get("/api/sedes");
+export const getSedesAdmin = async () => {
+  const response = await api.get("/api/sedes/detalle");
   return response.data;
 };
 
-export const getSedeById = async (id) => {
-  const response = await api.get(`/api/sedes/${id}`);
+export const getSedeByIdAdmin = async (id) => {
+  const response = await api.get(`/api/sedes/${id}/detalle`);
   return response.data;
 };
 
@@ -83,13 +107,42 @@ export const updateSede = async (id, data) => {
   return response.data;
 };
 
-export const inactivarSede = async (id) => {
-  const response = await api.patch(`/api/sedes/${id}/inactivar`);
+export const subirFotoSede = async (id, archivo) => {
+  const formData = new FormData();
+  formData.append("archivo", archivo);
+  const response = await api.put(`/api/sedes/${id}/foto`, formData, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
+  return response.data;
+};
+
+export const eliminarFotoSede = async (id) => {
+  const response = await api.delete(`/api/sedes/${id}/foto`);
   return response.data;
 };
 
 export const activarSede = async (id) => {
   const response = await api.patch(`/api/sedes/${id}/activar`);
+  return response.data;
+};
+
+export const inactivarSede = async (id) => {
+  const response = await api.patch(`/api/sedes/${id}/inactivar`);
+  return response.data;
+};
+
+export const eliminarSede = async (id) => {
+  const response = await api.delete(`/api/sedes/${id}`);
+  return response.data;
+};
+
+export const getSedes = async () => {
+  const response = await api.get("/api/sedes");
+  return response.data;
+};
+
+export const getSedeById = async (id) => {
+  const response = await api.get(`/api/sedes/${id}`);
   return response.data;
 };
 
@@ -123,13 +176,13 @@ export const registerMedico = async (data) => {
   return response.data;
 };
 
-export const getEspecialidades = async () => {
-  const response = await api.get("/api/especialidades");
+export const getEspecialidadesAdmin = async () => {
+  const response = await api.get("/api/especialidades/detalle");
   return response.data;
 };
 
-export const getEspecialidadById = async (id) => {
-  const response = await api.get(`/api/especialidades/${id}`);
+export const getEspecialidadByIdAdmin = async (id) => {
+  const response = await api.get(`/api/especialidades/${id}/detalle`);
   return response.data;
 };
 
@@ -143,13 +196,77 @@ export const updateEspecialidad = async (id, data) => {
   return response.data;
 };
 
-export const inactivarEspecialidad = async (id) => {
-  const response = await api.patch(`/api/especialidades/${id}/inactivar`);
+export const subirFotoEspecialidad = async (id, archivo) => {
+  const formData = new FormData();
+  formData.append("archivo", archivo);
+  const response = await api.put(`/api/especialidades/${id}/foto`, formData, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
+  return response.data;
+};
+
+export const eliminarFotoEspecialidad = async (id) => {
+  const response = await api.delete(`/api/especialidades/${id}/foto`);
   return response.data;
 };
 
 export const activarEspecialidad = async (id) => {
   const response = await api.patch(`/api/especialidades/${id}/activar`);
+  return response.data;
+};
+
+export const inactivarEspecialidad = async (id) => {
+  const response = await api.patch(`/api/especialidades/${id}/inactivar`);
+  return response.data;
+};
+
+export const eliminarEspecialidad = async (id) => {
+  const response = await api.delete(`/api/especialidades/${id}`);
+  return response.data;
+};
+
+export const getEspecialidades = async () => {
+  const response = await api.get("/api/especialidades");
+  return response.data;
+};
+
+export const getEspecialidadById = async (id) => {
+  const response = await api.get(`/api/especialidades/${id}`);
+  return response.data;
+};
+
+export const getUsuarios = async () => {
+  const response = await api.get("/api/usuarios");
+  return response.data;
+};
+
+export const getUsuarioById = async (id) => {
+  const response = await api.get(`/api/usuarios/${id}`);
+  return response.data;
+};
+
+export const createUsuario = async (data) => {
+  const response = await api.post("/api/usuarios", data);
+  return response.data;
+};
+
+export const updateUsuario = async (id, data) => {
+  const response = await api.put(`/api/usuarios/${id}`, data);
+  return response.data;
+};
+
+export const bloquearUsuario = async (id) => {
+  const response = await api.patch(`/api/usuarios/${id}/bloquear`);
+  return response.data;
+};
+
+export const inactivarUsuario = async (id) => {
+  const response = await api.patch(`/api/usuarios/${id}/inactivar`);
+  return response.data;
+};
+
+export const eliminarUsuario = async (id) => {
+  const response = await api.delete(`/api/usuarios/${id}`);
   return response.data;
 };
 

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import useSedes from "../../hooks/useSedes";
+import useEspecialidades from "../../hooks/useEspecialidades";
 
 const formatearFecha = (fechaISO) => {
   if (!fechaISO) return "N/A";
@@ -13,12 +13,19 @@ const formatearFecha = (fechaISO) => {
   });
 };
 
-export default function AdminTotalSedes() {
-  const { sedes, loading, saving, guardarSede, cambiarEstado, eliminarFotoDeSede, eliminarSedeCompleta } = useSedes();
+export default function AdminTotalEspecialidades() {
+  const {
+    especialidades,
+    loading,
+    saving,
+    guardarEspecialidad,
+    eliminarFotoDeEspecialidad,
+    eliminarEspecialidadCompleta,
+  } = useEspecialidades();
 
   const [showModal, setShowModal] = useState(false);
-  const [sedeEditar, setSedeEditar] = useState(null);
-  const initialForm = { nombre: "", descripcion: "", direccion: "" };
+  const [especialidadEditar, setEspecialidadEditar] = useState(null);
+  const initialForm = { nombre: "", descripcion: "" };
   const [form, setForm] = useState(initialForm);
   const [archivoFoto, setArchivoFoto] = useState(null);
   const [preview, setPreview] = useState(null);
@@ -38,28 +45,27 @@ export default function AdminTotalSedes() {
   };
 
   const handleAbrirNueva = () => {
-    setSedeEditar(null);
+    setEspecialidadEditar(null);
     setForm(initialForm);
     setArchivoFoto(null);
     setPreview(null);
     setShowModal(true);
   };
 
-  const handleAbrirEditar = (sede) => {
-    setSedeEditar(sede);
+  const handleAbrirEditar = (esp) => {
+    setEspecialidadEditar(esp);
     setForm({
-      nombre: sede.nombre,
-      descripcion: sede.descripcion || "",
-      direccion: sede.direccion,
+      nombre: esp.nombre,
+      descripcion: esp.descripcion || "",
     });
     setArchivoFoto(null);
-    setPreview(sede.foto || null);
+    setPreview(esp.foto || null);
     setShowModal(true);
   };
 
   const handleCerrar = () => {
     setShowModal(false);
-    setSedeEditar(null);
+    setEspecialidadEditar(null);
     setForm(initialForm);
     setArchivoFoto(null);
     setPreview(null);
@@ -67,25 +73,25 @@ export default function AdminTotalSedes() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!form.nombre.trim() || !form.direccion.trim()) return;
+    if (!form.nombre.trim()) return;
 
-    const ok = await guardarSede(sedeEditar ? sedeEditar.idSede : null, form, archivoFoto);
+    const ok = await guardarEspecialidad(especialidadEditar ? especialidadEditar.idEspecialidad : null, form, archivoFoto);
     if (ok) handleCerrar();
   };
 
   const handleEliminarFoto = async (id) => {
-    await eliminarFotoDeSede(id);
+    await eliminarFotoDeEspecialidad(id);
     setPreview(null);
   };
 
-  const handleEliminarSede = async (id) => {
-    if (window.confirm("¿Seguro que deseas eliminar esta sede? Esta acción no se puede revertir.")) {
-      await eliminarSedeCompleta(id);
+  const handleEliminarEspecialidad = async (id) => {
+    if (window.confirm("¿Seguro que deseas eliminar esta especialidad? Esta acción no se puede revertir.")) {
+      await eliminarEspecialidadCompleta(id);
     }
   };
 
-  const sedesFiltradas = sedes.filter((sede) =>
-    sede.nombre.toLowerCase().includes(busqueda.trim().toLowerCase())
+  const especialidadesFiltradas = especialidades.filter((esp) =>
+    esp.nombre.toLowerCase().includes(busqueda.trim().toLowerCase())
   );
 
   if (loading) {
@@ -221,13 +227,13 @@ export default function AdminTotalSedes() {
 
           .search-clear:hover { background: #e2e8f0; }
 
-          .sedes-grid {
+          .especialidades-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
             gap: 1.4rem;
           }
 
-          .sede-card {
+          .especialidad-card {
             background: white;
             border-radius: 20px;
             box-shadow: 0 2px 12px rgba(15,23,42,0.06);
@@ -236,9 +242,7 @@ export default function AdminTotalSedes() {
             overflow: hidden;
           }
 
-          .sede-card.inactiva { opacity: 0.7; }
-
-          .sede-card:hover {
+          .especialidad-card:hover {
             transform: translateY(-3px);
             box-shadow: 0 12px 30px rgba(15,23,42,0.12);
           }
@@ -268,14 +272,14 @@ export default function AdminTotalSedes() {
             gap: 0.75rem;
           }
 
-          .sede-name {
+          .especialidad-name {
             font-size: 1.08rem;
             font-weight: 700;
             color: #0f172a;
             line-height: 1.25;
           }
 
-          .sede-id {
+          .especialidad-id {
             font-size: 0.76rem;
             color: #94a3b8;
             margin-top: 0.15rem;
@@ -307,10 +311,6 @@ export default function AdminTotalSedes() {
 
           .action-btn.edit { background: #eff6ff; }
           .action-btn.edit:hover { background: #dbeafe; transform: scale(1.08); }
-          .action-btn.power-on { background: #f0fdf4; }
-          .action-btn.power-on:hover { background: #dcfce7; transform: scale(1.08); }
-          .action-btn.power-off { background: #fef2f2; }
-          .action-btn.power-off:hover { background: #fee2e2; transform: scale(1.08); }
           .action-btn.delete { background: #fef2f2; }
           .action-btn.delete:hover { background: #fecaca; transform: scale(1.08); }
 
@@ -320,7 +320,7 @@ export default function AdminTotalSedes() {
             border-top: 1px solid #f1f5f9;
           }
 
-          .sede-info-row {
+          .especialidad-info-row {
             display: flex;
             align-items: flex-start;
             gap: 0.5rem;
@@ -330,32 +330,7 @@ export default function AdminTotalSedes() {
             line-height: 1.4;
           }
 
-          .sede-info-row svg { flex-shrink: 0; margin-top: 2px; }
-
-          .estado-badge {
-            font-size: 0.72rem;
-            font-weight: 700;
-            padding: 0.28rem 0.75rem;
-            border-radius: 999px;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.35rem;
-            margin-top: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 0.02em;
-          }
-
-          .estado-badge::before {
-            content: "";
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-          }
-
-          .estado-activo { background: #dcfce7; color: #16a34a; }
-          .estado-activo::before { background: #16a34a; }
-          .estado-inactivo { background: #fee2e2; color: #dc2626; }
-          .estado-inactivo::before { background: #dc2626; }
+          .especialidad-info-row svg { flex-shrink: 0; margin-top: 2px; }
 
           .audit-box {
             margin-top: 0.9rem;
@@ -522,7 +497,7 @@ export default function AdminTotalSedes() {
           .btn-save:disabled { opacity: 0.6; cursor: not-allowed; }
 
           @media (max-width: 768px) {
-            .sedes-grid { grid-template-columns: 1fr; }
+            .especialidades-grid { grid-template-columns: 1fr; }
             .search-bar { max-width: 100%; }
           }
         `}
@@ -532,13 +507,12 @@ export default function AdminTotalSedes() {
         <div className="header-left">
           <div className="page-icon">
             <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ffffff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 1 1 18 0z" />
-              <circle cx="12" cy="10" r="3" />
+              <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
             </svg>
           </div>
           <div>
-            <div className="page-title">Sedes</div>
-            <div className="page-subtitle">{sedesFiltradas.length} de {sedes.length} sedes</div>
+            <div className="page-title">Especialidades</div>
+            <div className="page-subtitle">{especialidadesFiltradas.length} de {especialidades.length} especialidades</div>
           </div>
         </div>
 
@@ -547,7 +521,7 @@ export default function AdminTotalSedes() {
             <line x1="12" y1="5" x2="12" y2="19" />
             <line x1="5" y1="12" x2="19" y2="12" />
           </svg>
-          Agregar Sede
+          Agregar Especialidad
         </button>
       </div>
 
@@ -559,7 +533,7 @@ export default function AdminTotalSedes() {
         <input
           type="text"
           className="search-input"
-          placeholder="Buscar sede por nombre..."
+          placeholder="Buscar especialidad por nombre..."
           value={busqueda}
           onChange={(e) => setBusqueda(e.target.value)}
         />
@@ -573,129 +547,102 @@ export default function AdminTotalSedes() {
         )}
       </div>
 
-      {sedesFiltradas.length === 0 ? (
+      {especialidadesFiltradas.length === 0 ? (
         <div className="empty-state">
           <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#cbd5e1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 1 1 18 0z" />
-            <circle cx="12" cy="10" r="3" />
+            <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
           </svg>
           <p style={{ marginTop: "1rem", fontSize: "1.1rem" }}>
-            {busqueda ? "No se encontraron sedes con ese nombre" : "No hay sedes registradas"}
+            {busqueda ? "No se encontraron especialidades con ese nombre" : "No hay especialidades registradas"}
           </p>
         </div>
       ) : (
-        <div className="sedes-grid">
-          {sedesFiltradas.map((sede) => {
-            const activa = sede.estado === "ACTIVO";
-            return (
-              <div key={sede.idSede} className={`sede-card ${activa ? "" : "inactiva"}`}>
-                {sede.foto ? (
-                  <img src={sede.foto} alt={sede.nombre} className="card-cover" />
-                ) : (
-                  <div className="card-cover-placeholder">
-                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#ea580c" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 1 1 18 0z" />
-                      <circle cx="12" cy="10" r="3" />
-                    </svg>
-                  </div>
-                )}
+        <div className="especialidades-grid">
+          {especialidadesFiltradas.map((esp) => (
+            <div key={esp.idEspecialidad} className="especialidad-card">
+              {esp.foto ? (
+                <img src={esp.foto} alt={esp.nombre} className="card-cover" />
+              ) : (
+                <div className="card-cover-placeholder">
+                  <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#ea580c" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+                  </svg>
+                </div>
+              )}
 
-                <div className="card-body">
-                  <div className="card-top">
-                    <div>
-                      <div className="sede-name">{sede.nombre}</div>
-                      <div className="sede-id">ID: {sede.idSede}</div>
-                    </div>
-
-                    <div className="card-actions">
-                      <button className="action-btn edit" onClick={() => handleAbrirEditar(sede)} title="Editar">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="#2563eb" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                          <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
-                          <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
-                        </svg>
-                      </button>
-                      <button
-                        className={`action-btn ${activa ? "power-off" : "power-on"}`}
-                        onClick={() => cambiarEstado(sede)}
-                        title={activa ? "Inactivar" : "Activar"}
-                      >
-                        <svg viewBox="0 0 24 24" fill="none" stroke={activa ? "#dc2626" : "#16a34a"} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                          <path d="M18.36 6.64a9 9 0 1 1-12.73 0" />
-                          <line x1="12" y1="2" x2="12" y2="12" />
-                        </svg>
-                      </button>
-                      <button className="action-btn delete" onClick={() => handleEliminarSede(sede.idSede)} title="Eliminar">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="#dc2626" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                          <polyline points="3 6 5 6 21 6" />
-                          <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
-                          <line x1="10" y1="11" x2="10" y2="17" />
-                          <line x1="14" y1="11" x2="14" y2="17" />
-                          <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" />
-                        </svg>
-                      </button>
-                    </div>
+              <div className="card-body">
+                <div className="card-top">
+                  <div>
+                    <div className="especialidad-name">{esp.nombre}</div>
+                    <div className="especialidad-id">ID: {esp.idEspecialidad}</div>
                   </div>
 
-                  <div className="card-bottom">
-                    <div className="sede-info-row">
-                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#64748b" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 1 1 18 0z" />
-                        <circle cx="12" cy="10" r="3" />
+                  <div className="card-actions">
+                    <button className="action-btn edit" onClick={() => handleAbrirEditar(esp)} title="Editar">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="#2563eb" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
                       </svg>
-                      {sede.direccion}
+                    </button>
+                    <button className="action-btn delete" onClick={() => handleEliminarEspecialidad(esp.idEspecialidad)} title="Eliminar">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="#dc2626" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <polyline points="3 6 5 6 21 6" />
+                        <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
+                        <line x1="10" y1="11" x2="10" y2="17" />
+                        <line x1="14" y1="11" x2="14" y2="17" />
+                        <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+
+                <div className="card-bottom">
+                  {esp.descripcion && (
+                    <div className="especialidad-info-row">
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#64748b" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                        <polyline points="14 2 14 8 20 8" />
+                        <line x1="16" y1="13" x2="8" y2="13" />
+                        <line x1="16" y1="17" x2="8" y2="17" />
+                      </svg>
+                      {esp.descripcion}
                     </div>
+                  )}
 
-                    {sede.descripcion && (
-                      <div className="sede-info-row">
-                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#64748b" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-                          <polyline points="14 2 14 8 20 8" />
-                          <line x1="16" y1="13" x2="8" y2="13" />
-                          <line x1="16" y1="17" x2="8" y2="17" />
-                        </svg>
-                        {sede.descripcion}
-                      </div>
-                    )}
-
-                    <span className={`estado-badge ${activa ? "estado-activo" : "estado-inactivo"}`}>
-                      {activa ? "Activo" : "Inactivo"}
-                    </span>
-
-                    <div className="audit-box">
-                      <div className="audit-row">
-                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                          <circle cx="12" cy="12" r="10" />
-                          <polyline points="12 6 12 12 16 14" />
-                        </svg>
-                        Creado: {formatearFecha(sede.fechaCreacion)}
-                      </div>
-                      <div className="audit-row">
-                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-                          <circle cx="12" cy="7" r="4" />
-                        </svg>
-                        Por usuario {sede.usuarioCreacion}
-                      </div>
-                      <div className="audit-row">
-                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                          <circle cx="12" cy="12" r="10" />
-                          <polyline points="12 6 12 12 16 14" />
-                        </svg>
-                        Modificado: {formatearFecha(sede.fechaModificacion)}
-                      </div>
-                      <div className="audit-row">
-                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-                          <circle cx="12" cy="7" r="4" />
-                        </svg>
-                        Por usuario {sede.usuarioModificacion}
-                      </div>
+                  <div className="audit-box">
+                    <div className="audit-row">
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <circle cx="12" cy="12" r="10" />
+                        <polyline points="12 6 12 12 16 14" />
+                      </svg>
+                      Creado: {formatearFecha(esp.fechaCreacion)}
+                    </div>
+                    <div className="audit-row">
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                        <circle cx="12" cy="7" r="4" />
+                      </svg>
+                      Por usuario {esp.usuarioCreacion}
+                    </div>
+                    <div className="audit-row">
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <circle cx="12" cy="12" r="10" />
+                        <polyline points="12 6 12 12 16 14" />
+                      </svg>
+                      Modificado: {formatearFecha(esp.fechaModificacion)}
+                    </div>
+                    <div className="audit-row">
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                        <circle cx="12" cy="7" r="4" />
+                      </svg>
+                      Por usuario {esp.usuarioModificacion}
                     </div>
                   </div>
                 </div>
               </div>
-            );
-          })}
+            </div>
+          ))}
         </div>
       )}
 
@@ -703,7 +650,7 @@ export default function AdminTotalSedes() {
         <div className="modal-overlay">
           <div className="modal-box">
             <div className="modal-header">
-              <div className="modal-title">{sedeEditar ? "Editar Sede" : "Nueva Sede"}</div>
+              <div className="modal-title">{especialidadEditar ? "Editar Especialidad" : "Nueva Especialidad"}</div>
               <button className="close-btn" onClick={handleCerrar}>
                 <svg viewBox="0 0 24 24" fill="none" stroke="#64748b" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <line x1="18" y1="6" x2="6" y2="18" />
@@ -713,25 +660,15 @@ export default function AdminTotalSedes() {
             </div>
 
             <form onSubmit={handleSubmit}>
-              <label className="modal-label">Nombre de la sede</label>
+              <label className="modal-label">Nombre de la especialidad</label>
               <input
                 type="text"
                 className="modal-input"
                 name="nombre"
                 value={form.nombre}
                 onChange={handleChange}
-                placeholder="Ej: Sede Comas"
+                placeholder="Ej: Cardiología"
                 autoFocus
-              />
-
-              <label className="modal-label">Dirección</label>
-              <input
-                type="text"
-                className="modal-input"
-                name="direccion"
-                value={form.direccion}
-                onChange={handleChange}
-                placeholder="Ej: Av. Túpac Amaru 5421, Comas, Lima"
               />
 
               <label className="modal-label">Descripción</label>
@@ -741,7 +678,7 @@ export default function AdminTotalSedes() {
                 name="descripcion"
                 value={form.descripcion}
                 onChange={handleChange}
-                placeholder="Ej: Atención médica integral"
+                placeholder="Ej: Diagnóstico y tratamiento del corazón"
               />
 
               <label className="modal-label">Foto</label>
@@ -750,8 +687,8 @@ export default function AdminTotalSedes() {
               {preview && (
                 <div className="foto-preview-row">
                   <img src={preview} alt="preview" className="foto-preview-img" />
-                  {sedeEditar && sedeEditar.foto && !archivoFoto && (
-                    <button type="button" className="btn-quitar-foto" onClick={() => handleEliminarFoto(sedeEditar.idSede)}>
+                  {especialidadEditar && especialidadEditar.foto && !archivoFoto && (
+                    <button type="button" className="btn-quitar-foto" onClick={() => handleEliminarFoto(especialidadEditar.idEspecialidad)}>
                       <svg viewBox="0 0 24 24" fill="none" stroke="#dc2626" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                         <line x1="2" y1="2" x2="22" y2="22" />
                         <path d="M10.41 5H21a1 1 0 0 1 1 1v10.59" />

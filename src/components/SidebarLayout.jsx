@@ -26,6 +26,11 @@ export default function SidebarLayout({
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  const nombreCompleto = getNombre() || "";
+  const partes = nombreCompleto.trim().split(" ").filter(Boolean);
+  const nombres = partes.length > 2 ? partes.slice(0, partes.length - 2).join(" ") : partes[0] || "";
+  const apellidos = partes.length > 2 ? partes.slice(partes.length - 2).join(" ") : partes.slice(1).join(" ");
+
   if (isMobile) {
     return (
       <div
@@ -294,7 +299,7 @@ export default function SidebarLayout({
         <div
           style={{
             overflow: "hidden",
-            maxHeight: isOpen ? "100px" : "0px",
+            maxHeight: isOpen ? "130px" : "0px",
             opacity: isOpen ? 1 : 0,
             transition: "max-height 0.3s ease, opacity 0.3s ease",
             padding: isOpen ? "0.9rem 1.1rem" : "0 1.1rem",
@@ -304,14 +309,27 @@ export default function SidebarLayout({
             style={{
               fontSize: "0.88rem",
               color: accentColor,
-              margin: "0 0 0.3rem",
+              margin: "0 0 0.15rem",
               fontWeight: 700,
-              whiteSpace: "nowrap",
-              overflow: "hidden",
-              textOverflow: "ellipsis",
+              whiteSpace: "normal",
+              overflowWrap: "break-word",
+              lineHeight: 1.25,
             }}
           >
-            {getNombre()}
+            {nombres}
+          </p>
+          <p
+            style={{
+              fontSize: "0.88rem",
+              color: accentColor,
+              margin: "0 0 0.3rem",
+              fontWeight: 700,
+              whiteSpace: "normal",
+              overflowWrap: "break-word",
+              lineHeight: 1.25,
+            }}
+          >
+            {apellidos}
           </p>
           <p
             style={{

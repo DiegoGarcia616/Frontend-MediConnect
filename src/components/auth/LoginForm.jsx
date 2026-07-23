@@ -1,9 +1,25 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import LoginView from "./LoginView"
 import RegisterView from "./RegisterView"
+import ResetPasswordModal from "./ResetPasswordModal"
 
 export default function LoginForm() {
   const [view, setView] = useState("login")
+  const [resetToken, setResetToken] = useState(null)
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search)
+    const token = params.get("token")
+    if (token) {
+      setResetToken(token)
+    }
+  }, [])
+
+  const handleResetSuccess = () => {
+    setResetToken(null)
+    setView("login")
+    window.history.replaceState({}, "", window.location.pathname)
+  }
 
   return (
     <>
@@ -228,6 +244,13 @@ export default function LoginForm() {
         {view === "login" && <LoginView setView={setView} />}
         {view === "register" && <RegisterView setView={setView} />}
       </div>
+
+      <ResetPasswordModal
+        open={!!resetToken}
+        token={resetToken}
+        onClose={() => setResetToken(null)}
+        onSuccess={handleResetSuccess}
+      />
     </>
   )
 }

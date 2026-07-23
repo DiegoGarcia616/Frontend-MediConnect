@@ -2,8 +2,6 @@ import axios from "axios";
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
-console.log("BASE_URL:", BASE_URL);
-
 const api = axios.create({
   baseURL: BASE_URL,
   headers: {
@@ -19,17 +17,34 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
-export const loginUser = async (dni, password) => {
-  const response = await api.post("/api/auth/login", { dni, password });
+export const loginUser = async (dni, contrasena) => {
+  const response = await api.post("/api/auth/login", { dni, contrasena });
   return response.data;
 };
 
-export const registerPaciente = async (dni, correo, telefono, password) => {
-  const response = await api.post("/api/auth/registro/paciente", {
+export const getMe = async () => {
+  const response = await api.get("/api/auth/me");
+  return response.data;
+};
+
+export const registerPaciente = async (dni, correo, contrasena) => {
+  const response = await api.post("/api/auth/registro-paciente", {
     dni,
     correo,
-    telefono,
-    password,
+    contrasena,
+  });
+  return response.data;
+};
+
+export const solicitarResetPassword = async (dni) => {
+  const response = await api.post("/api/auth/reset-password/solicitar", { dni });
+  return response.data;
+};
+
+export const confirmarResetPassword = async (token, nuevaContrasena) => {
+  const response = await api.post("/api/auth/reset-password/confirmar", {
+    token,
+    nuevaContrasena,
   });
   return response.data;
 };

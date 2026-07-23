@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useRegister } from "../../hooks/useRegister";
+import RegisterSuccessAnimation from "./RegisterSuccessAnimation";
 
 export default function RegisterView({ setView }) {
   const {
@@ -11,13 +12,25 @@ export default function RegisterView({ setView }) {
     setPassword,
     loading,
     handleRegister,
-  } = useRegister();
+    successData,
+    closeSuccess,
+  } = useRegister(() => setView("login"));
 
   const [showPassword, setShowPassword] = useState(false);
 
   const onSubmit = (e) => {
     e.preventDefault();
     handleRegister();
+  };
+
+  const goToLogin = () => {
+    closeSuccess();
+    setView("login");
+  };
+
+  const goToHome = () => {
+    closeSuccess();
+    window.location.href = "/";
   };
 
   return (
@@ -94,6 +107,16 @@ export default function RegisterView({ setView }) {
           </button>
         </div>
       </form>
+
+      {successData && (
+        <RegisterSuccessAnimation
+          nombres={successData.nombres}
+          apellidoPaterno={successData.apellidoPaterno}
+          apellidoMaterno={successData.apellidoMaterno}
+          onLogin={goToLogin}
+          onHome={goToHome}
+        />
+      )}
     </div>
   );
 }

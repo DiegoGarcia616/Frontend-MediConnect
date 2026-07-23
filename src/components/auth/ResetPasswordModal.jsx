@@ -1,72 +1,105 @@
-import { useEffect } from "react";
-import { useForgotPassword } from "../../hooks/useForgotPassword";
+import { useState } from "react";
+import { useResetPassword } from "../../hooks/useResetPassword";
 
-export default function ForgotPasswordModal({ open, onClose }) {
-  const { dni, setDni, loading, sent, handleSolicitar, reset } = useForgotPassword();
+export default function ResetPasswordModal({ open, token, onClose, onSuccess }) {
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [done, setDone] = useState(false);
 
-  useEffect(() => {
-    if (!open) reset();
-  }, [open]);
+  const {
+    nuevaContrasena,
+    setNuevaContrasena,
+    confirmarContrasena,
+    setConfirmarContrasena,
+    loading,
+    handleConfirmar,
+  } = useResetPassword(() => {
+    setDone(true);
+    setTimeout(() => {
+      onSuccess();
+    }, 1500);
+  });
 
   if (!open) return null;
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    handleSolicitar();
-  };
-
-  const handleClose = () => {
-    reset();
-    onClose();
+    handleConfirmar(token);
   };
 
   return (
-    <div className="modal-overlay" onClick={handleClose}>
+    <div className="modal-overlay" onClick={onClose}>
       <div className="modal-box" onClick={(e) => e.stopPropagation()}>
         <div className="modal-header">
           <div className="modal-badge">
-            <i className="bi bi-shield-lock-fill"></i>
+            <i className="bi bi-key-fill"></i>
           </div>
-          <h2 className="modal-title">Recuperar acceso</h2>
+          <h2 className="modal-title">Nueva contraseña</h2>
         </div>
 
         <p className="modal-subtitle">
-          Ingresa tu DNI registrado y te enviaremos un enlace seguro para restablecer tu contraseña.
+          Ingresa y confirma tu nueva contraseña para completar el restablecimiento de tu cuenta.
         </p>
 
-        {!sent ? (
+        {!done ? (
           <form onSubmit={handleSubmit}>
-            <label className="modal-label">DNI</label>
-            <input
-              type="text"
-              className="modal-input"
-              placeholder="Ingrese su DNI"
-              value={dni}
-              onChange={(e) => setDni(e.target.value.replace(/\D/g, "").slice(0, 8))}
-              maxLength={8}
-              disabled={loading}
-              required
-            />
+            <label className="modal-label">Nueva contraseña</label>
+            <div className="password-wrapper">
+              <input
+                type={showPassword ? "text" : "password"}
+                className="modal-input pr-icon"
+                placeholder="Ingrese su nueva contraseña"
+                value={nuevaContrasena}
+                onChange={(e) => setNuevaContrasena(e.target.value)}
+                disabled={loading}
+                required
+              />
+              <button
+                type="button"
+                className="password-toggle"
+                onClick={() => setShowPassword(!showPassword)}
+                disabled={loading}
+              >
+                <i className={showPassword ? "bi bi-eye-slash" : "bi bi-eye"}></i>
+              </button>
+            </div>
+
+            <label className="modal-label mt-3-fluid">Confirmar contraseña</label>
+            <div className="password-wrapper">
+              <input
+                type={showConfirm ? "text" : "password"}
+                className="modal-input pr-icon"
+                placeholder="Repita su nueva contraseña"
+                value={confirmarContrasena}
+                onChange={(e) => setConfirmarContrasena(e.target.value)}
+                disabled={loading}
+                required
+              />
+              <button
+                type="button"
+                className="password-toggle"
+                onClick={() => setShowConfirm(!showConfirm)}
+                disabled={loading}
+              >
+                <i className={showConfirm ? "bi bi-eye-slash" : "bi bi-eye"}></i>
+              </button>
+            </div>
 
             <button type="submit" className="btn-portal mt-4-fluid" disabled={loading}>
-              {loading ? "Enviando..." : "Enviar enlace"}
+              {loading ? "Guardando..." : "Restablecer contraseña"}
             </button>
           </form>
         ) : (
           <div className="modal-success">
             <div className="modal-success-icon">
-              <i className="bi bi-envelope-check-fill"></i>
+              <i className="bi bi-check-circle-fill"></i>
             </div>
-            <p className="modal-success-title">Solicitud enviada</p>
+            <p className="modal-success-title">Contraseña actualizada</p>
             <p className="modal-success-text">
-              Si el DNI existe en nuestro sistema, recibirás un enlace de recuperación en breve.
+              Ya puedes iniciar sesión con tu nueva contraseña.
             </p>
           </div>
         )}
-
-        <button type="button" className="modal-close-btn" onClick={handleClose}>
-          Cerrar
-        </button>
       </div>
 
       <style>{`
@@ -142,6 +175,14 @@ export default function ForgotPasswordModal({ open, onClose }) {
           font-size: 0.85rem;
         }
 
+        .mt-3-fluid {
+          margin-top: 16px;
+        }
+
+        .password-wrapper {
+          position: relative;
+        }
+
         .modal-input {
           width: 100%;
           padding: 14px;
@@ -153,10 +194,34 @@ export default function ForgotPasswordModal({ open, onClose }) {
           transition: all 0.25s ease;
         }
 
+        .modal-input.pr-icon {
+          padding-right: 46px;
+        }
+
         .modal-input:focus {
           border-color: #00c2a8;
           box-shadow: 0 0 0 4px rgba(0,194,168,0.12);
           background: #ffffff;
+        }
+
+        .password-toggle {
+          position: absolute;
+          right: 14px;
+          top: 50%;
+          transform: translateY(-50%);
+          background: transparent;
+          border: none;
+          color: #64748b;
+          cursor: pointer;
+          font-size: 1.1rem;
+          padding: 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .password-toggle:hover {
+          color: #00c2a8;
         }
 
         .mt-4-fluid {
@@ -186,23 +251,6 @@ export default function ForgotPasswordModal({ open, onClose }) {
           opacity: 0.6;
           cursor: not-allowed;
           transform: none;
-        }
-
-        .modal-close-btn {
-          margin-top: 18px;
-          width: 100%;
-          background: #f1f5f9;
-          border: 1px solid #e2e8f0;
-          border-radius: 14px;
-          padding: 12px;
-          color: #475569;
-          font-weight: 600;
-          cursor: pointer;
-          transition: all 0.25s ease;
-        }
-
-        .modal-close-btn:hover {
-          background: #e2e8f0;
         }
 
         .modal-success {

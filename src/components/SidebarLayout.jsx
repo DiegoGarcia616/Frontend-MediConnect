@@ -13,7 +13,7 @@ export default function SidebarLayout({
   accentDark,
   menuItems,
 }) {
-  const { logout, getNombre } = useAuth();
+  const { logout, getNombre, getDni, getRol } = useAuth();
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
   useEffect(() => {
@@ -294,7 +294,7 @@ export default function SidebarLayout({
         <div
           style={{
             overflow: "hidden",
-            maxHeight: isOpen ? "60px" : "0px",
+            maxHeight: isOpen ? "100px" : "0px",
             opacity: isOpen ? 1 : 0,
             transition: "max-height 0.3s ease, opacity 0.3s ease",
             padding: isOpen ? "0.9rem 1.1rem" : "0 1.1rem",
@@ -302,19 +302,9 @@ export default function SidebarLayout({
         >
           <p
             style={{
-              fontSize: "0.75rem",
-              color: "#64748b",
-              margin: "0 0 0.2rem",
-              fontWeight: 500,
-            }}
-          >
-            Usuario
-          </p>
-          <p
-            style={{
               fontSize: "0.88rem",
               color: accentColor,
-              margin: 0,
+              margin: "0 0 0.3rem",
               fontWeight: 700,
               whiteSpace: "nowrap",
               overflow: "hidden",
@@ -323,6 +313,32 @@ export default function SidebarLayout({
           >
             {getNombre()}
           </p>
+          <p
+            style={{
+              fontSize: "0.75rem",
+              color: "#64748b",
+              margin: "0 0 0.2rem",
+              fontWeight: 500,
+            }}
+          >
+            DNI: {getDni()}
+          </p>
+          <span
+            style={{
+              display: "inline-block",
+              fontSize: "0.68rem",
+              fontWeight: 700,
+              color: accentDark,
+              backgroundColor: accentLight,
+              padding: "0.2rem 0.6rem",
+              borderRadius: "999px",
+              textTransform: "uppercase",
+              letterSpacing: "0.04em",
+              whiteSpace: "nowrap",
+            }}
+          >
+            {getRol()}
+          </span>
         </div>
 
         <button

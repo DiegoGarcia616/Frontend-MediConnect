@@ -1,12 +1,12 @@
 import Hero from '../../components/Hero';
 import SedesGrid from '../../components/sedes/SedesGrid';
-import useSedes from '../../hooks/useSedes';
+import useSedesPublico from '../../hooks/useSedesPublico';
 
 const accentColor = '#0a2e5c';
 const highlightColor = '#12b886';
 
 export default function Sedes() {
-  const { sedes, loading } = useSedes();
+  const { sedes, loading } = useSedesPublico();
 
   const items = sedes.map((s) => ({
     imagen: s.foto,

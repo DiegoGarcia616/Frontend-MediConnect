@@ -230,7 +230,10 @@ function Navbar() {
               <Link
                 to="/portal-web"
                 className="btn-portal"
-                onClick={() => setExpanded(false)}
+                onClick={() => {
+                  console.log("CLICK PORTAL WEB")
+                  setExpanded(false)
+                }}
               >
                 Portal Web
               </Link>

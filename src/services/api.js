@@ -303,4 +303,31 @@ export const getMiPerfilMedico = async () => {
   return response.data;
 };
 
+export const getExpedientePaciente = async (idPaciente) => {
+  const response = await api.get(
+    `/api/expedientes/paciente/${idPaciente}`
+  );
+
+  return response.data;
+};
+
+
+export const actualizarAntecedentesPaciente = async (idPaciente, data) => {
+  const response = await api.put(
+    `/api/antecedentes/paciente/${idPaciente}`,
+    data
+  );
+
+  return response.data;
+};
+
+export const getMisPacientes = async () => {
+  const response = await api.get("/api/medicos/mis-pacientes");
+  return response.data;
+};
+
+
+
+
+
 export default api;

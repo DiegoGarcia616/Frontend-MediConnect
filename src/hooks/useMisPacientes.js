@@ -1,8 +1,8 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { getMisPacientes } from "../services/api";
 import { toast } from "react-toastify";
 
-export default function usePacientes() {
+export default function useMisPacientes() {
 
   const [pacientes, setPacientes] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -18,10 +18,14 @@ export default function usePacientes() {
 
       setPacientes(response.data || []);
 
-    } catch(error) {
+    } catch (error) {
 
       console.error("Error al cargar pacientes:", error);
-      toast.error("Error al cargar pacientes");
+
+      toast.error(
+        error.response?.data?.message ||
+        "Error al cargar pacientes"
+      );
 
     } finally {
 

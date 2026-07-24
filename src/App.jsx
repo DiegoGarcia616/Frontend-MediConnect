@@ -124,7 +124,7 @@ function App() {
         </Route>
 
         {/* Login / acceso */}
-        <Route element={<PublicRoute />}>
+        <Route>
           <Route element={<AuthLayout />}>
             <Route path="/portal-web" element={<PortalWeb />} />
           </Route>
@@ -147,6 +147,7 @@ function App() {
             <Route path="/medico/citas" element={<AgendaMedico />} />
             <Route path="/medico/pacientes" element={<MisPacientes />} />
             <Route path="/medico/historias" element={<HistoriasClinicas />} />
+            <Route path="/medico/historias/:idPaciente" element={<HistoriasClinicas />} />
             <Route path="/medico/consulta/:id" element={<ConsultaMedica />} />
             <Route path="/medico/perfil" element={<ProfileMedico />} />
           </Route>
